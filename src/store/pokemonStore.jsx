@@ -7,7 +7,7 @@ export const usePokemonStore = create(
       history: [],
       addHistory: (entry) =>
         set((state) => ({ history: [entry, ...state.history] })),
-      clearHistory: () => set({ history: [] }),
+      clearHistory: () => set({ history: [] }), // 7. reset history
     }),
     { name: "battle_history" },
   ),

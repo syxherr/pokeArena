@@ -31,7 +31,7 @@ export default function History({ entries, onClear }) {
           <span className={styles.count}>{entries.length}</span>
         </div>
         <button className={styles.btnClear} onClick={onClear}>
-          🗑 Clear
+          Clear
         </button>
       </div>
 

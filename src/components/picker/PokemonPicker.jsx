@@ -1,9 +1,17 @@
-import { useState, useRef, useEffect, useCallback, useMemo, memo, useId } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  memo,
+  useId,
+} from "react";
 import ErrorBoundary from "../ErrorBoundary.jsx";
 import { fetchPokemonDetail } from "../../hooks/usePokemon.jsx";
 import styles from "./PokemonPicker.module.css";
 import SwordAltIcon from "../../style/SwordAltIcon";
-import Loading from "../Loading.jsx"
+import Loading from "../Loading.jsx";
 
 const TYPE_COLORS = {
   fire: "#FF6B35",
@@ -88,7 +96,7 @@ const SlotPicker = memo(function SlotPicker({
   const inputId = useId();
   const listboxId = useId();
 
-  // 2. autocomplete filter based on id
+  // 2. autocomplete based on query user
   const filtered = useMemo(() => {
     if (query.trim().length === 0) return pokemonList.slice(0, 80);
     return pokemonList
@@ -110,7 +118,7 @@ const SlotPicker = memo(function SlotPicker({
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  // 3. call fetchPokemonDetail, hasil detailnya kirim data stats
+  // 3. call fetchPokemonDetail, ngambil data lengkap pokemon
   const handleSelect = useCallback(
     async (p) => {
       setQuery(capitalize(p.name));
@@ -178,7 +186,7 @@ const SlotPicker = memo(function SlotPicker({
           )}
         </div>
 
-      {/* dropdown filter */}
+        {/* 2. dropdown suggestion */}
         {open && filtered.length > 0 && (
           <ul
             id={listboxId}
@@ -186,6 +194,7 @@ const SlotPicker = memo(function SlotPicker({
             aria-label={`${label} Pokémon options`}
           >
             {filtered.map((p) => (
+              // 3. pokemon dipilih = panggil handleSelect
               <li
                 key={p.id}
                 className={styles.dropdownItem}
@@ -241,33 +250,33 @@ const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }) {
 
   return (
     <ErrorBoundary>
-    <article
-      className={`${styles.card} ${styles[side]}`}
-      aria-label={`${capitalize(pokemon.name)} — selected as ${side === "left" ? "Challenger 1" : "Challenger 2"}`}
-    >
-      {pokemon.sprite && (
-        <img
-          className={styles.sprite}
-          src={pokemon.sprite}
-          alt={`${capitalize(pokemon.name)} sprite`}
-          width={96}
-          height={96}
-        />
-      )}
-      <div className={styles.cardInfo}>
-        <div className={styles.cardName}>{capitalize(pokemon.name)}</div>
+      <article
+        className={`${styles.card} ${styles[side]}`}
+        aria-label={`${capitalize(pokemon.name)} — selected as ${side === "left" ? "Challenger 1" : "Challenger 2"}`}
+      >
+        {pokemon.sprite && (
+          <img
+            className={styles.sprite}
+            src={pokemon.sprite}
+            alt={`${capitalize(pokemon.name)} sprite`}
+            width={96}
+            height={96}
+          />
+        )}
+        <div className={styles.cardInfo}>
+          <div className={styles.cardName}>{capitalize(pokemon.name)}</div>
 
-        <div
-          className={styles.types}
-          role="list"
-          aria-label={`${capitalize(pokemon.name)} types`}
-        >
-          {pokemon.types.map((t) => (
-            <TypePill key={t} type={t} />
-          ))}
+          <div
+            className={styles.types}
+            role="list"
+            aria-label={`${capitalize(pokemon.name)} types`}
+          >
+            {pokemon.types.map((t) => (
+              <TypePill key={t} type={t} />
+            ))}
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
     </ErrorBoundary>
   );
 });

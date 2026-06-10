@@ -30,7 +30,7 @@ const StatsSection = memo(function StatsSection({
     setVisibleCount(0);
     setAllDone(false);
 
-    // show stat tiap 1 detik
+    // 5. c show stat tiap 1 detik
     const interval = setInterval(() => {
       setVisibleCount((prev) => {
         const next = prev + 1;

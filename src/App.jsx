@@ -33,8 +33,10 @@ const STRUCTURED_DATA = {
 };
 
 export default function App() {
+  // custom hook
   const { list, loading: listLoading, error } = usePokemonList();
 
+  // custom hook
   const {
     selected,
     statsVisible,
@@ -49,6 +51,7 @@ export default function App() {
     onWinnerDismiss,
   } = useComparator();
 
+  // custom hook
   const { theme, setTheme } = useTheme();
 
   const [randomLoading, setRandomLoading] = useState(false);
@@ -219,6 +222,7 @@ export default function App() {
           </section>
         )}
       </div>
+      {/* props */}
       <BattleOverlay
         phase={overlayPhase}
         nameA={selected[0]?.name ?? ""}

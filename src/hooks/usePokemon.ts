@@ -2,12 +2,13 @@ import useSWR from "swr";
 import { useState, useEffect } from "react";
 
 const API_LIST = "https://pokeapi.co/api/v2/pokemon?limit=1302&offset=0";
-const API_DETAIL = (name : string) => `https://pokeapi.co/api/v2/pokemon/${name}`;
+const API_DETAIL = (name: string) =>
+  `https://pokeapi.co/api/v2/pokemon/${name}`;
 const CACHE_KEY = "pokemon_list_cache";
 
 export interface PokemonListItem {
   id: number;
-  name:string;
+  name: string;
 }
 
 export interface Pokemon {
@@ -22,7 +23,7 @@ export interface Pokemon {
 async function fetchList(): Promise<PokemonListItem[]> {
   const cached = localStorage.getItem(CACHE_KEY);
   if (cached) return JSON.parse(cached) as PokemonListItem[];
-
+  // klo belum
   const res = await fetch(API_LIST);
   if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
@@ -30,18 +31,17 @@ async function fetchList(): Promise<PokemonListItem[]> {
   if (!Array.isArray(data.results)) throw new Error("Unexpected API response");
 
   const parsed: PokemonListItem[] = data.results.map(
-    (p: { name: string }, i: number) => ({ id: i + 1, name: p.name })
+    (p: { name: string }, i: number) => ({ id: i + 1, name: p.name }),
   );
   localStorage.setItem(CACHE_KEY, JSON.stringify(parsed));
   return parsed;
 }
 
-
 export function usePokemonList() {
   const { data, error, isLoading } = useSWR<PokemonListItem[]>(
     "pokemon-list",
     fetchList,
-    { revalidateOnFocus: false }
+    { revalidateOnFocus: false },
   );
 
   return {
@@ -51,10 +51,10 @@ export function usePokemonList() {
   };
 }
 
-// fecth ke API, mentah ke objek yg dibutuhin aja
+// 4. fecth ke API, mentah ke objek yg dibutuhin aja
 export async function fetchPokemonDetail(name: string): Promise<Pokemon> {
   const res = await fetch(API_DETAIL(name)); // fecth ke API
-    if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+  if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
   const data = await res.json();
 
   const stats: Record<string, number> = {};
@@ -65,7 +65,7 @@ export async function fetchPokemonDetail(name: string): Promise<Pokemon> {
   return {
     id: data.id, // id
     name: data.name, // nama
-    types:  data.types.map((t: { type: { name: string } }) => t.type.name), // tipe
+    types: data.types.map((t: { type: { name: string } }) => t.type.name), // tipe
     sprite: data.sprites.front_default ?? null, // gambar
     stats, //stats
   };

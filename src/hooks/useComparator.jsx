@@ -43,7 +43,7 @@ export function useComparator() {
     setOverlayPhase("winner");
   }
 
-  // 6. history 
+  // 5. d history 
   function onWinnerDismiss() {
     const [a, b] = selected;
     const { statusA, statusB } = calcWinner(a, b);
@@ -51,14 +51,12 @@ export function useComparator() {
     setOverlayPhase(null);
   }
 
-  // 7. reset pokemon
+  // 6. reset pokemon
   function reset() {
     setSelected([null, null]);
     setStatsVisible(false);
     setOverlayPhase(null);
   }
-
-  
 
   return {
     selected,
@@ -75,7 +73,7 @@ export function useComparator() {
   };
 }
 
-// 4. hitung compare stat pokemon
+// 5. a&b hitung compare stat pokemon
 export function calcWinner(a, b) {
   let winsA = 0;
   let winsB = 0;
