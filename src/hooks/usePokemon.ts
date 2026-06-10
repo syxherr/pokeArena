@@ -24,7 +24,11 @@ async function fetchList(): Promise<PokemonListItem[]> {
   if (cached) return JSON.parse(cached) as PokemonListItem[];
 
   const res = await fetch(API_LIST);
+  if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+
   const data = await res.json();
+  if (!Array.isArray(data.results)) throw new Error("Unexpected API response");
+
   const parsed: PokemonListItem[] = data.results.map(
     (p: { name: string }, i: number) => ({ id: i + 1, name: p.name })
   );
@@ -50,6 +54,7 @@ export function usePokemonList() {
 // fecth ke API, mentah ke objek yg dibutuhin aja
 export async function fetchPokemonDetail(name: string): Promise<Pokemon> {
   const res = await fetch(API_DETAIL(name)); // fecth ke API
+    if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
   const data = await res.json();
 
   const stats: Record<string, number> = {};

@@ -4,7 +4,7 @@ export default function StatsLoading() {
   return (
     <div className={styles.wrap} role="status" aria-label="Loading Battle">
       <img
-        src="/pokeball.svg"
+        src="/pokeArena/pokeball.svg"
         alt=""
         className={styles.pokeball}
         width={48}
