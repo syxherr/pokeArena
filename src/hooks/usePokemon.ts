@@ -13,7 +13,7 @@ export interface PokemonListItem {
 export interface Pokemon {
   id: number;
   name: string;
-  types: string;
+  types: string[];
   sprite: string | null;
   stats: Record<string, number>;
 }
@@ -25,26 +25,13 @@ async function fetchList(): Promise<PokemonListItem[]> {
 
   const res = await fetch(API_LIST);
   const data = await res.json();
-  const parsed: PokemonListItem[] = data.result.map(
+  const parsed: PokemonListItem[] = data.results.map(
     (p: { name: string }, i: number) => ({ id: i + 1, name: p.name })
   );
   localStorage.setItem(CACHE_KEY, JSON.stringify(parsed));
   return parsed;
 }
 
-export function UsePokemonList() {
-  const { data, error, isLoading } = useSWR<PokemonListItem[]>(
-    "pokemon-list",
-    fetchList,
-    { revalidateOnFocus: false }
-  );
-
-  return {
-    list: data ?? [],
-    loading: isLoading,
-    error: error?.message ?? null,
-  };
-}
 
 export function usePokemonList() {
   const { data, error, isLoading } = useSWR<PokemonListItem[]>(
