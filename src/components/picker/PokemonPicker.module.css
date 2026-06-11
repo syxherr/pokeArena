@@ -45,10 +45,12 @@
     border-color 0.2s,
     box-shadow 0.2s;
 }
+
 .inputRow:focus-within {
   border-color: var(--border-focus);
   box-shadow: 0 0 0 2px var(--accent-dim);
 }
+
 .input {
   flex: 1;
   background: transparent;
@@ -60,9 +62,11 @@
   font-weight: 500;
   font-family: inherit;
 }
+
 .input::placeholder {
   color: var(--text-muted);
 }
+
 .input:disabled {
   opacity: 0.4;
   cursor: not-allowed;
@@ -76,6 +80,7 @@
   cursor: pointer;
   transition: color 0.15s;
 }
+
 .clearBtn:hover {
   color: var(--text-primary);
 }
@@ -96,6 +101,7 @@
   z-index: 100;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
+
 .dropdownItem {
   display: flex;
   align-items: center;
@@ -105,9 +111,11 @@
   cursor: pointer;
   transition: background 0.12s;
 }
+
 .dropdownItem:hover {
   background: var(--bg-card-inner);
 }
+
 .dropThumb {
   width: 28px;
   height: 28px;
@@ -136,7 +144,6 @@
   justify-content: center;
 }
 
-
 .bgCircle {
   position: absolute;
   width: 110px;
@@ -147,9 +154,11 @@
   opacity: 0.1;
   pointer-events: none;
 }
+
 .left .bgCircle {
   background: var(--win-a);
 }
+
 .right .bgCircle {
   background: var(--win-b);
 }
@@ -169,7 +178,6 @@
   width: 100%;
 }
 
-
 .cardName {
   font-family: "Bebas Neue", sans-serif;
   font-size: 22px;
@@ -177,12 +185,15 @@
   line-height: 1.1;
   margin: 2px 0 6px;
 }
+
 .left .cardName {
   color: var(--win-a);
 }
+
 .right .cardName {
   color: var(--win-b);
 }
+
 .cardEmpty {
   font-size: 13px;
   color: var(--text-secondary);
@@ -194,6 +205,7 @@
   justify-content: center;
   flex-wrap: wrap;
 }
+
 .typePill {
   font-size: 10px;
   font-weight: 600;

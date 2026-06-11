@@ -6,7 +6,6 @@
   overflow: hidden;
 }
 
-/* ── Table header ── */
 .tableHeader {
   display: grid;
   grid-template-columns: 1fr 140px 1fr;
@@ -37,7 +36,6 @@
   text-transform: uppercase;
 }
 
-/* ── Animated rows ── */
 @keyframes rowIn {
   from {
     opacity: 0;
@@ -63,15 +61,14 @@
   border-bottom: 1px solid var(--border);
   transition: background 0.12s;
 
-  /* row masuk satu-satu */
   opacity: 0;
   animation: rowIn 0.35s ease forwards;
 }
 
-/* delay per index — diset via inline style di JSX */
 .statRow:last-child {
   border-bottom: none;
 }
+
 .statRow:hover {
   background: var(--bg-card-inner);
 }
@@ -81,6 +78,7 @@
   align-items: center;
   gap: 7px;
 }
+
 .valB {
   display: flex;
   align-items: center;
@@ -88,7 +86,6 @@
   gap: 7px;
 }
 
-/* ── Numbers ── */
 .numGreen {
   font-family: "Bebas Neue", sans-serif;
   font-size: 22px;
@@ -111,7 +108,6 @@
   color: var(--text-muted);
 }
 
-/* ── Win dots — dengan glow ── */
 .dotGreen {
   display: inline-block;
   width: 7px;
@@ -124,6 +120,7 @@
     0 0 10px 2px var(--win-a-dim),
     0 0 18px 3px var(--win-a-dim);
 }
+
 .dotOrange {
   display: inline-block;
   width: 7px;
@@ -136,6 +133,7 @@
     0 0 10px 2px var(--win-b-dim),
     0 0 18px 3px var(--win-b-dim);
 }
+
 .dotMuted {
   display: inline-block;
   width: 7px;
@@ -145,13 +143,13 @@
   background: var(--text-muted);
 }
 
-/* ── Dual bars ── */
 .middle {
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding: 0 12px;
 }
+
 .statLabel {
   font-size: 10px;
   color: var(--text-muted);
@@ -159,11 +157,13 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
+
 .dualBars {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px;
 }
+
 .barTrack {
   height: 5px;
   border-radius: 20px;
@@ -171,12 +171,12 @@
   overflow: visible;
   position: relative;
 }
+
 .barFill {
   height: 100%;
   border-radius: 20px;
   position: absolute;
   top: 0;
-  /* bar grow animasi — delay ngikutin row */
   animation: barGrow 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -187,6 +187,7 @@
     0 0 4px 1px var(--bar-a),
     0 0 8px 2px var(--win-a-dim);
 }
+
 .barRight {
   background: var(--bar-b);
   left: 0;
@@ -194,12 +195,12 @@
     0 0 4px 1px var(--bar-b),
     0 0 8px 2px var(--win-b-dim);
 }
+
 .barDim {
   opacity: 0.28;
   box-shadow: none;
 }
 
-/* ── Result banner — juga animasi masuk ── */
 @keyframes resultIn {
   from {
     opacity: 0;
@@ -221,24 +222,28 @@
   border-top: 1px solid var(--border);
   animation: resultIn 0.35s ease forwards;
 }
+
 .resultGreen {
   font-family: "Bebas Neue", sans-serif;
   font-size: 18px;
   letter-spacing: 0.08em;
   color: var(--win-a);
 }
+
 .resultOrange {
   font-family: "Bebas Neue", sans-serif;
   font-size: 18px;
   letter-spacing: 0.08em;
   color: var(--win-b);
 }
+
 .resultDraw {
   font-family: "Bebas Neue", sans-serif;
   font-size: 18px;
   letter-spacing: 0.08em;
   color: var(--text-muted);
 }
+
 .resultScore {
   font-size: 13px;
   color: var(--text-muted);

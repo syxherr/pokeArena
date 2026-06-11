@@ -18,7 +18,7 @@
 }
 
 .main {
-  font-family: 'Unbounded', sans-serif;
+  font-family: "Unbounded", sans-serif;
   font-size: clamp(28px, 6vw, 48px);
   font-weight: 800;
   color: var(--red);
@@ -30,7 +30,7 @@
 }
 
 .mainWinner {
-  font-family: 'Unbounded', sans-serif;
+  font-family: "Unbounded", sans-serif;
   font-size: clamp(28px, 6vw, 48px);
   font-weight: 800;
   color: var(--win-a);
@@ -42,7 +42,7 @@
 }
 
 .mainDraw {
-  font-family: 'Unbounded', sans-serif;
+  font-family: "Unbounded", sans-serif;
   font-size: clamp(28px, 6vw, 48px);
   font-weight: 800;
   color: var(--text-muted);
@@ -58,19 +58,21 @@
 }
 
 .fighterA {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-size: 22px;
   letter-spacing: 0.06em;
   color: var(--win-a);
 }
+
 .fighterB {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-size: 22px;
   letter-spacing: 0.06em;
   color: var(--win-b);
 }
+
 .vs {
-  font-family: 'Unbounded', sans-serif;
+  font-family: "Unbounded", sans-serif;
   font-size: 13px;
   font-weight: 800;
   color: var(--text-muted);
@@ -78,7 +80,7 @@
 }
 
 .score {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-size: 32px;
   letter-spacing: 0.1em;
   color: var(--text-secondary);

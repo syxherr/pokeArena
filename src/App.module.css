@@ -58,12 +58,14 @@
   align-items: center;
   cursor: pointer;
 }
+
 .toggleSwitch input {
   position: absolute;
   opacity: 0;
   width: 0;
   height: 0;
 }
+
 .toggleTrack {
   width: 48px;
   height: 26px;
@@ -77,6 +79,7 @@
     background 0.2s,
     border-color 0.2s;
 }
+
 .toggleSwitch input:checked ~ .toggleTrack {
   background: var(--accent-dim);
   border-color: var(--accent-border);
@@ -92,6 +95,7 @@
     background 0.2s;
   flex-shrink: 0;
 }
+
 .toggleSwitch input:checked ~ .toggleTrack .toggleThumb {
   transform: translateX(22px);
   background: var(--accent);
@@ -156,12 +160,14 @@
     3px 3px 0 rgba(0, 0, 0, 0.35),
     0 6px 20px var(--accent-border);
 }
+
 .btnCompare:active {
   transform: translate(2px, 2px);
   box-shadow:
     1px 1px 0 rgba(0, 0, 0, 0.35),
     0 2px 8px var(--accent-border);
 }
+
 .btnCompare:disabled {
   opacity: 0.35;
   cursor: not-allowed;
@@ -192,9 +198,11 @@
   cursor: pointer;
   transition: all 0.15s;
 }
+
 .btnRandom:hover {
   color: var(--text-primary);
 }
+
 .btnRandom:disabled {
   opacity: 0.35;
   cursor: not-allowed;
