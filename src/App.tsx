@@ -1,7 +1,7 @@
-import { usePokemonList } from "./hooks/usePokemon.js";
+import { usePokemonList } from "./hooks/usePokemon";
 import { Helmet } from "react-helmet-async";
-import { useComparator } from "./hooks/useComparator.js";
-import { useTheme } from "./style/theme/useTheme.js";
+import { useComparator } from "./hooks/useComparator";
+import { useTheme } from "./style/theme/useTheme";
 import {
   useMemo,
   useCallback,
@@ -11,16 +11,16 @@ import {
   useEffect,
   useState,
 } from "react";
-import PokemonPicker from "./components/picker/PokemonPicker.js";
+import PokemonPicker from "./components/picker/PokemonPicker";
 import styles from "./App.module.css";
-import { calcWinner } from "./hooks/useComparator.js";
-import BattleOverlay from "./components/battle/BattleOverlay.js";
-import { fetchPokemonDetail } from "./hooks/usePokemon.js";
-import ErrorBoundary from "./components/ErrorBoundary.js";
-import Loading from "./components/Loading.js";
+import { calcWinner } from "./hooks/useComparator";
+import BattleOverlay from "./components/battle/BattleOverlay";
+import { fetchPokemonDetail } from "./hooks/usePokemon";
+import ErrorBoundary from "./components/ErrorBoundary";
+import Loading from "./components/Loading";
 
-const History = lazy(() => import("./components/history/History.js"));
-const StatsSection = lazy(() => import("./components/battle/Statssection.js"));
+const History = lazy(() => import("./components/history/History"));
+const StatsSection = lazy(() => import("./components/battle/Statssection"));
 
 const STRUCTURED_DATA = {
   "@context": "https://schema.org",

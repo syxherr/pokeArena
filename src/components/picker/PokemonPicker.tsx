@@ -7,12 +7,12 @@ import {
   memo,
   useId,
 } from "react";
-import ErrorBoundary from "../ErrorBoundary.jsx";
-import { fetchPokemonDetail } from "../../hooks/usePokemon.js";
+import ErrorBoundary from "../ErrorBoundary";
+import { fetchPokemonDetail } from "../../hooks/usePokemon";
 import styles from "./PokemonPicker.module.css";
-import SwordAltIcon from "../../style/SwordAltIcon.js";
-import Loading from "../Loading.jsx";
-import type { Pokemon, PokemonListItem } from "../../hooks/usePokemon.js";
+import SwordAltIcon from "../../style/SwordAltIcon";
+import Loading from "../Loading";
+import type { Pokemon, PokemonListItem } from "../../hooks/usePokemon";
 
 interface PokemonPickerProps {
   pokemonList: PokemonListItem[];
