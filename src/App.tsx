@@ -1,7 +1,7 @@
-import { usePokemonList } from "./hooks/usePokemon.jsx";
+import { usePokemonList } from "./hooks/usePokemon.js";
 import { Helmet } from "react-helmet-async";
-import { useComparator } from "./hooks/useComparator.jsx";
-import { useTheme } from "./style/theme/useTheme.jsx";
+import { useComparator } from "./hooks/useComparator.js";
+import { useTheme } from "./style/theme/useTheme.js";
 import {
   useMemo,
   useCallback,
@@ -11,16 +11,16 @@ import {
   useEffect,
   useState,
 } from "react";
-import PokemonPicker from "./components/picker/PokemonPicker.jsx";
+import PokemonPicker from "./components/picker/PokemonPicker.js";
 import styles from "./App.module.css";
-import { calcWinner } from "./hooks/useComparator.jsx";
-import BattleOverlay from "./components/battle/BattleOverlay.jsx";
-import { fetchPokemonDetail } from "./hooks/usePokemon.jsx";
-import ErrorBoundary from "./components/ErrorBoundary.jsx";
-import Loading from "./components/Loading.jsx";
+import { calcWinner } from "./hooks/useComparator.js";
+import BattleOverlay from "./components/battle/BattleOverlay.js";
+import { fetchPokemonDetail } from "./hooks/usePokemon.js";
+import ErrorBoundary from "./components/ErrorBoundary.js";
+import Loading from "./components/Loading.js";
 
-const History = lazy(() => import("./components/history/History.jsx"));
-const StatsSection = lazy(() => import("./components/battle/Statssection.jsx"));
+const History = lazy(() => import("./components/history/History.js"));
+const StatsSection = lazy(() => import("./components/battle/Statssection.js"));
 
 const STRUCTURED_DATA = {
   "@context": "https://schema.org",
@@ -33,10 +33,10 @@ const STRUCTURED_DATA = {
 };
 
 export default function App() {
-  // custom hook
+  // custom hook usePokemonList(
   const { list, loading: listLoading, error } = usePokemonList();
 
-  // custom hook
+  // custom hook useComparator()
   const {
     selected,
     statsVisible,
@@ -51,7 +51,7 @@ export default function App() {
     onWinnerDismiss,
   } = useComparator();
 
-  // custom hook
+  // custom hook useTheme()
   const { theme, setTheme } = useTheme();
 
   const [randomLoading, setRandomLoading] = useState(false);
@@ -81,7 +81,7 @@ export default function App() {
       });
   }, [list, selectPokemon]);
 
-  const statsRef = useRef(null);
+  const statsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (statsVisible && statsRef.current) {
       const id = setTimeout(() => statsRef.current?.focus(), 100);
@@ -184,7 +184,6 @@ export default function App() {
               disabled={listLoading}
               aria-label="Pick two random Pokémon"
             >
-              {randomLoading}
               Random
             </button>
             <button

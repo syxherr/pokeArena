@@ -1,5 +1,6 @@
 import { Component } from "react";
 import styled from "styled-components";
+import React from "react";
 
 const ErrorWrapper = styled.div`
   display: flex;
@@ -18,8 +19,16 @@ const ErrorWrapper = styled.div`
   text-align: center;
 `;
 
-export default class ErrorBoundary extends Component{
-    constructor(props) {
+interface Props {
+  children: React.ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+}
+
+export default class ErrorBoundary extends Component<Props, State>{
+    constructor(props: Props) {
         super(props);
         this.state = { hasError: false }; // ganti
     }
@@ -28,7 +37,7 @@ export default class ErrorBoundary extends Component{
     return { hasError: true };
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
     console.error("PokemonCard error:", error, info);
   }
 

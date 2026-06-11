@@ -1,5 +1,4 @@
 import useSWR from "swr";
-import { useState, useEffect } from "react";
 
 const API_LIST = "https://pokeapi.co/api/v2/pokemon?limit=1302&offset=0";
 const API_DETAIL = (name: string) =>
@@ -42,6 +41,7 @@ async function fetchList(): Promise<PokemonListItem[]> {
   return parsed;
 }
 
+// swr
 export function usePokemonList() {
   const { data, error, isLoading } = useSWR<PokemonListItem[]>(
     "pokemon-list",

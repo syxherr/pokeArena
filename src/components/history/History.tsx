@@ -2,9 +2,34 @@ import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import styles from "./History.module.css";
 
-function AnimatedItem({ children, index }) {
+// tambah setelah import
+interface HistoryEntry {
+  nameA: string;
+  nameB: string;
+  statusA: "Win" | "Lose" | "Draw";
+  statusB: "Win" | "Lose" | "Draw";
+  spriteA?: string;
+  spriteB?: string;
+}
+
+interface HistoryProps {
+  entries: HistoryEntry[];
+  onClear: () => void;
+}
+
+interface HistoryItemProps {
+  entry: HistoryEntry;
+  index: number;
+}
+
+interface AnimatedItemProps {
+  children: React.ReactNode;
+  index: number;
+}
+
+function AnimatedItem({ children, index }: AnimatedItemProps) {
   const ref = useRef(null);
-  const inView = useInView(ref, { amount: 0.3, triggerOnce: true });
+  const inView = useInView(ref, { amount: 0.3, once: true });
 
   return (
     <motion.div
@@ -22,7 +47,7 @@ function AnimatedItem({ children, index }) {
   );
 }
 
-export default function History({ entries, onClear }) {
+export default function History({ entries, onClear }: HistoryProps) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
@@ -59,7 +84,7 @@ export default function History({ entries, onClear }) {
   );
 }
 
-function HistoryItem({ entry, index }) {
+function HistoryItem({ entry, index }: HistoryItemProps) {
   const { nameA, nameB, statusA, statusB, spriteA, spriteB } = entry;
 
   const nameClassA =

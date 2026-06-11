@@ -2,6 +2,15 @@ import { useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import styles from "./BattleOverlay.module.css";
 
+interface BattleOverlayProps {
+  phase: "begin" | "winner" | null;
+  nameA: string;
+  nameB: string;
+  winsA: number;
+  winsB: number;
+  onBeginDone?: () => void;
+}
+
 const PHASES = {
   begin: "begin",
   winner: "winner",
@@ -14,7 +23,7 @@ const BattleOverlay = memo(function BattleOverlay({
   winsA,
   winsB,
   onBeginDone,
-}) {
+}: BattleOverlayProps) {
   const visible = phase === PHASES.begin || phase === PHASES.winner;
 
   useEffect(() => {

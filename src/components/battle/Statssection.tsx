@@ -1,6 +1,63 @@
 import { useState, useEffect, memo, useMemo } from "react";
 import { motion } from "motion/react";
 import styles from "./StatsSection.module.css";
+import type { Pokemon } from "../../hooks/usePokemon";
+
+interface StatsSectionProps {
+  pokemonA: Pokemon;
+  pokemonB: Pokemon;
+  onComplete?: () => void;
+}
+
+interface StatResult {
+  statkey: string;
+  va: number;
+  vb: number;
+  barA: number;
+  barB: number;
+  winA: boolean;
+  winB: boolean;
+}
+
+interface CalcResults {
+  winsA: number;
+  winsB: number;
+  statResults: StatResult[];
+}
+
+interface AnimatedRowProps {
+  index: number;
+  allDone: boolean;
+  label: string;
+  va: number;
+  vb: number;
+  barA: number;
+  barB: number;
+  winA: boolean;
+  winB: boolean;
+  nameA: string;
+  nameB: string;
+}
+
+interface StatRowProps {
+  allDone: boolean;
+  label: string;
+  va: number;
+  vb: number;
+  barA: number;
+  barB: number;
+  winA: boolean;
+  winB: boolean;
+  nameA: string;
+  nameB: string;
+}
+
+interface ResultBannerProps {
+  winsA: number;
+  winsB: number;
+  nameA: string;
+  nameB: string;
+}
 
 const STAT_KEYS = [
   "hp",
@@ -10,13 +67,14 @@ const STAT_KEYS = [
   "special-defense",
   "speed",
 ];
+
 const MAX_STAT = 255;
 
 const StatsSection = memo(function StatsSection({
   pokemonA,
   pokemonB,
   onComplete,
-}) {
+}: StatsSectionProps) {
   const { winsA, winsB, statResults } = useMemo(
     () => calcResults(pokemonA, pokemonB),
     [pokemonA, pokemonB],
@@ -72,12 +130,12 @@ const StatsSection = memo(function StatsSection({
       >
         {statResults
           .slice(0, visibleCount)
-          .map(({ key, va, vb, barA, barB, winA, winB }, index) => (
+          .map(({ statkey, va, vb, barA, barB, winA, winB }, index) => (
             <AnimatedRow
-              key={key}
+              key={statkey}
+              label={statkey}
               index={index}
               allDone={allDone}
-              label={key}
               va={va}
               vb={vb}
               barA={barA}
@@ -126,7 +184,7 @@ const AnimatedRow = memo(function AnimatedRow({
   winB,
   nameA,
   nameB,
-}) {
+}: AnimatedRowProps) {
   return (
     <div role="listitem">
       <motion.div
@@ -166,7 +224,7 @@ const StatRow = memo(function StatRow({
   allDone,
   nameA,
   nameB,
-}) {
+}: StatRowProps) {
   return (
     <div
       className={styles.statRow}
@@ -232,7 +290,7 @@ const ResultBanner = memo(function ResultBanner({
   winsB,
   nameA,
   nameB,
-}) {
+}: ResultBannerProps) {
   if (winsA > winsB)
     return (
       <div className={styles.result} role="status" aria-live="polite">
@@ -270,10 +328,10 @@ const ResultBanner = memo(function ResultBanner({
   );
 });
 
-function calcResults(a, b) {
+function calcResults(a: Pokemon, b: Pokemon): CalcResults {
   let winsA = 0,
     winsB = 0;
-  const statResults = STAT_KEYS.map((key) => {
+  const statResults: StatResult[] = STAT_KEYS.map((key) => {
     const va = a.stats[key] ?? 0;
     const vb = b.stats[key] ?? 0;
     const winA = va > vb,
@@ -281,7 +339,7 @@ function calcResults(a, b) {
     if (winA) winsA++;
     else if (winB) winsB++;
     return {
-      key,
+      statkey: key,
       va,
       vb,
       barA: Math.round((va / MAX_STAT) * 100),

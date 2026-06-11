@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { usePokemonStore } from "../store/pokemonStore";
+import type { Pokemon } from "./usePokemon";
+import { useSelector, useDispatch } from "react-redux";
+import { addHistory, clearHistory } from "../store/pokemonSlice";
+import type { RootState } from "../store/store";
+
 
 const STAT_KEYS = [
   "hp",
@@ -10,18 +14,23 @@ const STAT_KEYS = [
   "speed",
 ];
 
+
 export function useComparator() {
-  const [selected, setSelected] = useState([null, null]);
+  const [selected, setSelected] = useState<[Pokemon | null, Pokemon | null]>([
+    null,
+    null,
+  ]);
+  const [overlayPhase, setOverlayPhase] = useState<"begin" | "winner" | null>(
+    null,
+  );
   const [statsVisible, setStatsVisible] = useState(false);
-  const [overlayPhase, setOverlayPhase] = useState(null);
 
-  const history = usePokemonStore((state) => state.history);
-  const addHistory = usePokemonStore((state) => state.addHistory);
-  const clearHistory = usePokemonStore((state) => state.clearHistory);
+  const history = useSelector((state: RootState) => state.history.entries);
+  const dispatch = useDispatch();
 
-  function selectPokemon(slot, pokemon) {
+  function selectPokemon(slot: number, pokemon: Pokemon | null) {
     setSelected((prev) => {
-      const next = [...prev];
+      const next: [Pokemon | null, Pokemon | null] = [prev[0], prev[1]];
       next[slot] = pokemon;
       return next;
     });
@@ -49,8 +58,9 @@ export function useComparator() {
   // 5. d history
   function onWinnerDismiss() {
     const [a, b] = selected;
+    if (!a || !b) return;
     const { statusA, statusB } = calcWinner(a, b);
-    addHistory({ nameA: a.name, nameB: b.name, statusA, statusB }); // ← pakai store
+    dispatch(addHistory({ nameA: a.name, nameB: b.name, statusA, statusB }));
     setOverlayPhase(null);
   }
 
@@ -69,7 +79,7 @@ export function useComparator() {
     selectPokemon,
     compare,
     reset,
-    clearHistory,
+    clearHistory: () => dispatch(clearHistory()),
     onBeginDone,
     onStatsComplete,
     onWinnerDismiss,
@@ -77,7 +87,7 @@ export function useComparator() {
 }
 
 // 5. a&b hitung compare stat pokemon
-export function calcWinner(a, b) {
+export function calcWinner(a: Pokemon, b: Pokemon) {
   let winsA = 0;
   let winsB = 0;
 
@@ -89,7 +99,8 @@ export function calcWinner(a, b) {
     else if (vb > va) winsB++;
   });
 
-  let statusA, statusB;
+  let statusA: "Win" | "Lose" | "Draw";
+  let statusB: "Win" | "Lose" | "Draw";
   // menentukan total poin
   if (winsA > winsB) {
     statusA = "Win";

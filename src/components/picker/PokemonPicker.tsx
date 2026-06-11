@@ -8,12 +8,41 @@ import {
   useId,
 } from "react";
 import ErrorBoundary from "../ErrorBoundary.jsx";
-import { fetchPokemonDetail } from "../../hooks/usePokemon.jsx";
+import { fetchPokemonDetail } from "../../hooks/usePokemon.js";
 import styles from "./PokemonPicker.module.css";
-import SwordAltIcon from "../../style/SwordAltIcon";
+import SwordAltIcon from "../../style/SwordAltIcon.js";
 import Loading from "../Loading.jsx";
+import type { Pokemon, PokemonListItem } from "../../hooks/usePokemon.js";
 
-const TYPE_COLORS = {
+interface PokemonPickerProps {
+  pokemonList: PokemonListItem[];
+  listLoading: boolean;
+  selected: [Pokemon | null, Pokemon | null];
+  onSelect: (slot: number, pokemon: Pokemon | null) => void;
+  randomLoading: boolean;
+}
+
+interface SlotPickerProps {
+  label: string;
+  side: "left" | "right";
+  pokemonList: PokemonListItem[];
+  listLoading: boolean;
+  pokemon: Pokemon | null;
+  onSelect: (pokemon: Pokemon | null) => void;
+  randomLoading: boolean;
+}
+
+interface PokemonCardProps {
+  pokemon: Pokemon | null;
+  loading: boolean;
+  side: "left" | "right";
+}
+
+interface TypePillProps {
+  type: string;
+}
+
+const TYPE_COLORS: Record<string, string> = {
   fire: "#FF6B35",
   water: "#4A90D9",
   grass: "#3ddc84",
@@ -40,9 +69,9 @@ const PokemonPicker = memo(function PokemonPicker({
   selected,
   onSelect,
   randomLoading,
-}) {
-  const handleSelectA = useCallback((poke) => onSelect(0, poke), [onSelect]);
-  const handleSelectB = useCallback((poke) => onSelect(1, poke), [onSelect]);
+}: PokemonPickerProps) {
+  const handleSelectA = useCallback((poke: Pokemon | null) => onSelect(0, poke), [onSelect]);
+const handleSelectB = useCallback((poke: Pokemon | null) => onSelect(1, poke), [onSelect])
 
   return (
     <div
@@ -87,11 +116,11 @@ const SlotPicker = memo(function SlotPicker({
   pokemon,
   onSelect,
   randomLoading,
-}) {
+}: SlotPickerProps) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [fetching, setFetching] = useState(false);
-  const wrapRef = useRef(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   const inputId = useId();
   const listboxId = useId();
@@ -110,8 +139,8 @@ const SlotPicker = memo(function SlotPicker({
 
   // autocomplete tutup
   useEffect(() => {
-    function handleClick(e) {
-      if (wrapRef.current && !wrapRef.current.contains(e.target))
+    function handleClick(e: MouseEvent) {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node))
         setOpen(false);
     }
     document.addEventListener("mousedown", handleClick);
@@ -120,7 +149,7 @@ const SlotPicker = memo(function SlotPicker({
 
   // 3. call fetchPokemonDetail, ngambil data lengkap pokemon
   const handleSelect = useCallback(
-    async (p) => {
+    async (p: PokemonListItem) => {
       setQuery(capitalize(p.name));
       setOpen(false);
       setFetching(true);
@@ -143,7 +172,7 @@ const SlotPicker = memo(function SlotPicker({
   }, [onSelect]);
 
   // autocomplete kebuka
-  const handleQueryChange = useCallback((e) => {
+  const handleQueryChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
     setOpen(true);
   }, []);
@@ -158,6 +187,7 @@ const SlotPicker = memo(function SlotPicker({
 
       <div className={styles.autocompleteWrap} ref={wrapRef}>
         <div className={styles.inputRow}>
+          {/* controlled component */}
           <input
             id={inputId}
             className={styles.input}
@@ -225,7 +255,7 @@ const SlotPicker = memo(function SlotPicker({
   );
 });
 
-const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }) {
+const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }: PokemonCardProps) {
   if (loading) {
     return (
       <div className={`${styles.card} ${styles[side]}`}>
@@ -283,7 +313,7 @@ const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }) {
   );
 });
 
-const TypePill = memo(function TypePill({ type }) {
+const TypePill = memo(function TypePill({ type }: TypePillProps) {
   const color = TYPE_COLORS[type] ?? "#999";
   return (
     <span
