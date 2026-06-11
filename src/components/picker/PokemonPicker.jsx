@@ -236,6 +236,7 @@ const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }) {
 
   if (!pokemon) {
     return (
+      <ErrorBoundary>
       <div className={`${styles.card} ${styles[side]}`}>
         <div
           className={styles.cardEmpty}
@@ -245,6 +246,7 @@ const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }) {
           Choose Your Pokemon
         </div>
       </div>
+      </ErrorBoundary>
     );
   }
 

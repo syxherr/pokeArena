@@ -2,19 +2,23 @@ import { useState } from "react";
 import { usePokemonStore } from "../store/pokemonStore";
 
 const STAT_KEYS = [
-  "hp", "attack", "defense",
-  "special-attack", "special-defense", "speed",
+  "hp",
+  "attack",
+  "defense",
+  "special-attack",
+  "special-defense",
+  "speed",
 ];
 
 export function useComparator() {
-  const [selected, setSelected]         = useState([null, null]);
+  const [selected, setSelected] = useState([null, null]);
   const [statsVisible, setStatsVisible] = useState(false);
   const [overlayPhase, setOverlayPhase] = useState(null);
 
-  const history     = usePokemonStore((state) => state.history);
-  const addHistory  = usePokemonStore((state) => state.addHistory);
+  const history = usePokemonStore((state) => state.history);
+  const addHistory = usePokemonStore((state) => state.addHistory);
   const clearHistory = usePokemonStore((state) => state.clearHistory);
-  
+
   function selectPokemon(slot, pokemon) {
     setSelected((prev) => {
       const next = [...prev];
@@ -31,7 +35,6 @@ export function useComparator() {
 
     setOverlayPhase("begin");
     setStatsVisible(false);
-
   }
 
   function onBeginDone() {
@@ -43,7 +46,7 @@ export function useComparator() {
     setOverlayPhase("winner");
   }
 
-  // 5. d history 
+  // 5. d history
   function onWinnerDismiss() {
     const [a, b] = selected;
     const { statusA, statusB } = calcWinner(a, b);
@@ -81,14 +84,23 @@ export function calcWinner(a, b) {
   STAT_KEYS.forEach((key) => {
     const va = a.stats[key] ?? 0;
     const vb = b.stats[key] ?? 0;
+    // + 1 poin
     if (va > vb) winsA++;
     else if (vb > va) winsB++;
   });
 
   let statusA, statusB;
-  if (winsA > winsB)      { statusA = "Win";  statusB = "Lose"; }
-  else if (winsB > winsA) { statusA = "Lose"; statusB = "Win";  }
-  else                    { statusA = "Draw"; statusB = "Draw"; }
+  // menentukan total poin
+  if (winsA > winsB) {
+    statusA = "Win";
+    statusB = "Lose";
+  } else if (winsB > winsA) {
+    statusA = "Lose";
+    statusB = "Win";
+  } else {
+    statusA = "Draw";
+    statusB = "Draw";
+  }
 
   return { winsA, winsB, statusA, statusB };
 }

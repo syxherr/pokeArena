@@ -21,18 +21,23 @@ export interface Pokemon {
 
 // 1. cached API to localStorage
 async function fetchList(): Promise<PokemonListItem[]> {
+  // ambil data dari localStorage
   const cached = localStorage.getItem(CACHE_KEY);
+  // cek
   if (cached) return JSON.parse(cached) as PokemonListItem[];
-  // klo belum
+  // klo belum, request ke API
   const res = await fetch(API_LIST);
   if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
   const data = await res.json();
   if (!Array.isArray(data.results)) throw new Error("Unexpected API response");
 
+  // respon menerima data
   const parsed: PokemonListItem[] = data.results.map(
     (p: { name: string }, i: number) => ({ id: i + 1, name: p.name }),
   );
+
+  // simpan ke localStorage
   localStorage.setItem(CACHE_KEY, JSON.stringify(parsed));
   return parsed;
 }
