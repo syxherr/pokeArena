@@ -20,7 +20,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import Loading from "./components/Loading";
 
 const History = lazy(() => import("./components/history/History"));
-const StatsSection = lazy(() => import("./components/battle/Statssection"));
+const StatsSection = lazy(() => import("./components/battle/StatsSection"));
 
 const STRUCTURED_DATA = {
   "@context": "https://schema.org",
