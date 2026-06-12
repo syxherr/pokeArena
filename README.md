@@ -18,7 +18,6 @@ Think your Pokémon is built different? Prove it. Pick any two Pokémon, throw t
 - **motion/react** — stat reveal and overlay transition animations
 - **CSS Modules + Styled Components** — scoped styling per component, zero class conflicts
 - **PokeAPI** — REST API as Pokémon data source, list cached to localStorage to avoid re-fetching every session
-## Installation
- 
+
 ## Try it here 🚀
  [Pokemon Arena](https://syxherr.github.io/pokeArena/)
