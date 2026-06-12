@@ -1,6 +1,6 @@
 # Pokemon Arena ⚔️
  
-Think your Pokémon is built different? Prove it. Pick any two Pokémon, throw them in the arena, and let the Pokémon battle. No cap, only facts. 🔥
+Think your Pokémon is built different? Prove it. Pick any two Pokémon, throw them in the arena, and let the Pokémon battle🔥
  
 ## What You Can Do
 - 🔍 **Search Pokémon** — type a name, results pop up instantly
@@ -12,7 +12,6 @@ Think your Pokémon is built different? Prove it. Pick any two Pokémon, throw t
 
   
 ## Tech Stack
- 
 - **React + TypeScript + Vite** — frontend framework with static typing, bundled with Vite for fast dev experience
 - **Redux Toolkit + redux-persist** — global state management for battle history, auto-persisted to localStorage
 - **SWR** — data fetching with built-in caching, deduplication, and loading/error state
@@ -23,4 +22,4 @@ Think your Pokémon is built different? Prove it. Pick any two Pokémon, throw t
  
 ## Demo
  
-[Pokemon Arena]()
+> Think you got what it takes? → **[Try it here 🚀](https://syxherr.github.io/pokeArena/)
