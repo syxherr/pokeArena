@@ -1,13 +1,12 @@
 # Pokemon Arena ⚔️
- 
-Think your Pokémon is built different? Prove it. Pick any two Pokémon, throw them in the arena, and let the Pokémon battle🔥
+I challenge you, if you dare, come with your strongest Pokemon and let us battle. Pick any Pokémon, throw them in the arena, and let the Pokémon decide who's the winner.
  
 ## What You Can Do
 - 🔍 **Search Pokémon** — type a name, results pop up instantly
 - 🎲 **Feeling lucky?** — hit random and two Pokémon get picked for you
-- ⚔️ **Battle** — throw two Pokémon in the arena and see who comes out on top
+- ⚔️ **Die For You** — throw two Pokémon in the arena and see who's the winner.
 - 📊 **Stat reveal** — stats drop to keep the tension going
-- 🏆 **Winner takes all** — most stat wins = the champion
+- 🏆 **The Winner Takes It All** — most stat wins = the champion
 - 📜 **Battle history** — every match gets saved, check it anytime
 
   
