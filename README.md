@@ -1,16 +1,26 @@
-# React + Vite
+# Pokemon Arena ⚔️
+ 
+Think your Pokémon is built different? Prove it. Pick any two Pokémon, throw them in the arena, and let the Pokémon battle. No cap, only facts. 🔥
+ 
+## What You Can Do
+- 🔍 **Search Pokémon** — type a name, results pop up instantly
+- 🎲 **Feeling lucky?** — hit random and two Pokémon get picked for you
+- ⚔️ **Battle** — throw two Pokémon in the arena and see who comes out on top
+- 📊 **Stat reveal** — stats drop to keep the tension going
+- 🏆 **Winner takes all** — most stat wins = the champion
+- 📜 **Battle history** — every match gets saved, check it anytime
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+  
+## Tech Stack
+ 
+- **React + TypeScript + Vite** — frontend framework with static typing, bundled with Vite for fast dev experience
+- **Redux Toolkit + redux-persist** — global state management for battle history, auto-persisted to localStorage
+- **SWR** — data fetching with built-in caching, deduplication, and loading/error state
+- **motion/react** — stat reveal and overlay transition animations
+- **CSS Modules + Styled Components** — scoped styling per component, zero class conflicts
+- **PokeAPI** — REST API as Pokémon data source, list cached to localStorage to avoid re-fetching every session
+## Installation
+ 
+## Demo
+ 
+[Pokemon Arena]()
