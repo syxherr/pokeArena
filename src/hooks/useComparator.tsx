@@ -64,8 +64,8 @@ export function useComparator() {
         nameB: b.name,
         statusA,
         statusB,
-        spriteA: a.sprite ?? undefined,
-        spriteB: b.sprite ?? undefined,
+        // spriteA: a.sprite ?? undefined,
+        // spriteB: b.sprite ?? undefined,
       }),
     );
 

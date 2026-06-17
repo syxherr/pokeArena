@@ -111,9 +111,7 @@ function HistoryItem({ entry, index }: HistoryItemProps) {
             {capitalize(nameA)}
           </span>
           <div className={styles.status}>
-            <span
-              className={`${styles.dot} ${statusA === "Win" ? styles.dotWin : statusA === "Lose" ? styles.dotLose : styles.dotDraw}`}
-            />
+            
             <span
               className={`${styles.statusText} ${statusA === "Win" ? styles.statusWin : statusA === "Lose" ? styles.statusLose : styles.statusDraw}`}
             >
@@ -136,9 +134,7 @@ function HistoryItem({ entry, index }: HistoryItemProps) {
             >
               {statusB}
             </span>
-            <span
-              className={`${styles.dot} ${statusB === "Win" ? styles.dotWin : statusB === "Lose" ? styles.dotLose : styles.dotDraw}`}
-            />
+            
           </div>
         </div>
         {spriteB && <img className={styles.sprite} src={spriteB} alt={nameB} />}
