@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { Pokemon } from "./usePokemon";
 import { useSelector, useDispatch } from "react-redux";
 import { addHistory, clearHistory } from "../store/pokemonSlice";
 import type { RootState } from "../store/store";
-
 
 const STAT_KEYS = [
   "hp",
@@ -13,7 +12,6 @@ const STAT_KEYS = [
   "special-defense",
   "speed",
 ];
-
 
 export function useComparator() {
   const [selected, setSelected] = useState<[Pokemon | null, Pokemon | null]>([
@@ -28,7 +26,7 @@ export function useComparator() {
   const history = useSelector((state: RootState) => state.history.entries);
   const dispatch = useDispatch();
 
-  function selectPokemon(slot: number, pokemon: Pokemon | null) {
+  const selectPokemon = useCallback((slot: number, pokemon: Pokemon | null) => {
     setSelected((prev) => {
       const next: [Pokemon | null, Pokemon | null] = [prev[0], prev[1]];
       next[slot] = pokemon;
@@ -36,40 +34,50 @@ export function useComparator() {
     });
     setStatsVisible(false);
     setOverlayPhase(null);
-  }
+  }, []);
 
-  function compare() {
+  const compare = useCallback(() => {
     const [a, b] = selected;
     if (!a || !b) return;
 
     setOverlayPhase("begin");
     setStatsVisible(false);
-  }
+  }, [selected]);
 
-  function onBeginDone() {
+  const onBeginDone = useCallback(() => {
     setOverlayPhase(null);
     setStatsVisible(true);
-  }
+  }, []);
 
-  function onStatsComplete() {
+  const onStatsComplete = useCallback(() => {
     setOverlayPhase("winner");
-  }
+  }, []);
 
   // 5. d history
-  function onWinnerDismiss() {
+  const onWinnerDismiss = useCallback(() => {
     const [a, b] = selected;
     if (!a || !b) return;
     const { statusA, statusB } = calcWinner(a, b);
-    dispatch(addHistory({ nameA: a.name, nameB: b.name, statusA, statusB }));
+    dispatch(
+      addHistory({
+        nameA: a.name,
+        nameB: b.name,
+        statusA,
+        statusB,
+        spriteA: a.sprite ?? undefined,
+        spriteB: b.sprite ?? undefined,
+      }),
+    );
+
     setOverlayPhase(null);
-  }
+  }, [selected, dispatch]);
 
   // 6. reset pokemon
-  function reset() {
+  const reset = useCallback(() => {
     setSelected([null, null]);
     setStatsVisible(false);
     setOverlayPhase(null);
-  }
+  }, []);
 
   return {
     selected,

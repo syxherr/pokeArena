@@ -71,7 +71,7 @@ const PokemonPicker = memo(function PokemonPicker({
   randomLoading,
 }: PokemonPickerProps) {
   const handleSelectA = useCallback((poke: Pokemon | null) => onSelect(0, poke), [onSelect]);
-const handleSelectB = useCallback((poke: Pokemon | null) => onSelect(1, poke), [onSelect])
+const handleSelectB = useCallback((poke: Pokemon | null) => onSelect(1, poke), [onSelect]);
 
   return (
     <div

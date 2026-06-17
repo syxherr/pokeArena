@@ -30,7 +30,7 @@ const BattleOverlay = memo(function BattleOverlay({
     if (phase !== PHASES.begin) return;
     const id = setTimeout(() => onBeginDone?.(), 3000);
     return () => clearTimeout(id);
-  }, [phase]);
+  }, [phase, onBeginDone]);
 
   const winner = winsA > winsB ? nameA : winsB > winsA ? nameB : null;
 

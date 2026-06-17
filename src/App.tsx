@@ -87,7 +87,7 @@ export default function App() {
       const id = setTimeout(() => statsRef.current?.focus(), 100);
       return () => clearTimeout(id);
     }
-  });
+  }, [statsVisible]);
 
   const battleResult = useMemo(() => {
     if (!selected[0] || !selected[1]) return { winsA: 0, winsB: 0 };

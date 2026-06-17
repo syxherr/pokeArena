@@ -1,4 +1,33 @@
-export const themes = {
+type ThemeColors = {
+  bgApp: string;
+  bgCard: string;
+  bgCardInner: string;
+  bgInput: string;
+  bgPokeCard: string;
+  border: string;
+  borderFocus: string;
+  textPrimary: string;
+  textSecondary: string;
+  textMuted: string;
+  textAccent: string;
+  toggleTheme: string;
+  accent: string;
+  accentDim: string;
+  accentBorder: string;
+  btn: string;
+  winA: string;
+  winADim: string;
+  winB: string;
+  winBDim: string;
+  barA: string;
+  barB: string;
+  barBg: string;
+  red: string;
+};
+
+export type ThemeName = "light" | "dark";
+
+export const themes: Record<ThemeName, ThemeColors> = {
   light: {
     // Backgrounds
     bgApp: "#FEF5DD",
@@ -17,7 +46,7 @@ export const themes = {
     textMuted: "#9C806E",
     textAccent: "#2c1a0e",
 
-    toogletheme: "#2C1F0E",
+    toggleTheme: "#2C1F0E",
     // Pokémon Red accent
     accent: "#e63f3f",
     accentDim: "rgba(230,63,63,0.1)",
@@ -45,7 +74,7 @@ export const themes = {
     bgInput: "#1a2840",
     bgPokeCard: "#1a2332",
 
-    toogletheme: "#b69618",
+    toggleTheme: "#b69618",
 
     // Borders
     border: "rgba(255,255,255,0.08)",

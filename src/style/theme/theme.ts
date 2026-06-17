@@ -1,10 +1,10 @@
-import { themes } from "./color.js";
+import { themes, type ThemeName } from "./color.js";
 
-function toKebab(str) {
+function toKebab(str: string): string {
   return str.replace(/([A-Z])/g, (m) => `-${m.toLowerCase()}`);
 }
 
-export function applyTheme(themeName) {
+export function applyTheme(themeName: ThemeName): void {
   const tokens = themes[themeName];
   if (!tokens) return;
 

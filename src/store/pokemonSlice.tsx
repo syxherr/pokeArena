@@ -5,7 +5,8 @@ interface HistoryEntry {
   nameB: string;
   statusA: "Win" | "Lose" | "Draw";
   statusB: "Win" | "Lose" | "Draw";
-
+  spriteA?: string;
+  spriteB?: string;
 }
 
 interface HistoryState {

@@ -107,7 +107,7 @@ const StatsSection = memo(function StatsSection({
     if (!allDone) return;
     const id = setTimeout(() => onComplete?.(), 2000);
     return () => clearTimeout(id);
-  }, [allDone]);
+  }, [allDone, onComplete]);
 
   return (
     <article className={styles.wrapper}>
