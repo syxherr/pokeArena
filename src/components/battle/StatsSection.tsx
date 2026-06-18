@@ -2,6 +2,7 @@ import { useState, useEffect, memo, useMemo } from "react";
 import { motion } from "motion/react";
 import styles from "./StatsSection.module.css";
 import type { Pokemon } from "../../hooks/usePokemon";
+// import { capitalize } from "../../utils/capitalize";
 
 interface StatsSectionProps {
   pokemonA: Pokemon;

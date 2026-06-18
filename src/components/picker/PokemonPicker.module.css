@@ -34,6 +34,7 @@
 .autocompleteWrap {
   position: relative;
 }
+/* 
 .inputRow {
   display: flex;
   align-items: center;
@@ -83,7 +84,7 @@
 
 .clearBtn:hover {
   color: var(--text-primary);
-}
+} */
 
 .dropdown {
   position: absolute;

@@ -2,6 +2,8 @@ import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import styles from "./History.module.css";
 
+import { Button } from "@mui/material";
+
 // tambah setelah import
 interface HistoryEntry {
   nameA: string;
@@ -53,11 +55,29 @@ export default function History({ entries, onClear }: HistoryProps) {
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h2 className={styles.title}>History</h2>
-          <span className={styles.count}>{entries.length}</span>
         </div>
-        <button className={styles.btnClear} onClick={onClear}>
+
+        <Button
+          variant="outlined"
+          onClick={onClear}
+          sx={{
+            fontFamily: "'Nunito', sans-serif",
+            fontSize: "12px",
+            fontWeight: 700,
+            textTransform: "none",
+            padding: "6px 14px",
+            borderRadius: "8px",
+            borderColor: "var(--border)",
+            color: "var(--text-muted)",
+            "&:hover": {
+              borderColor: "rgba(224,58,47,0.3)",
+              color: "var(--red)",
+              background: "transparent",
+            },
+          }}
+        >
           Clear
-        </button>
+        </Button>
       </div>
 
       {entries.length === 0 ? (
@@ -87,18 +107,8 @@ export default function History({ entries, onClear }: HistoryProps) {
 function HistoryItem({ entry, index }: HistoryItemProps) {
   const { nameA, nameB, statusA, statusB, spriteA, spriteB } = entry;
 
-  const nameClassA =
-    statusA === "Win"
-      ? styles.nameWin
-      : statusA === "Lose"
-        ? styles.nameLose
-        : styles.nameDraw;
-  const nameClassB =
-    statusB === "Win"
-      ? styles.nameWin
-      : statusB === "Lose"
-        ? styles.nameLose
-        : styles.nameDraw;
+  const nameClassA = styles.nameA;
+const nameClassB = styles.nameB;
 
   return (
     <div className={styles.row}>
@@ -111,7 +121,6 @@ function HistoryItem({ entry, index }: HistoryItemProps) {
             {capitalize(nameA)}
           </span>
           <div className={styles.status}>
-            
             <span
               className={`${styles.statusText} ${statusA === "Win" ? styles.statusWin : statusA === "Lose" ? styles.statusLose : styles.statusDraw}`}
             >
@@ -134,7 +143,6 @@ function HistoryItem({ entry, index }: HistoryItemProps) {
             >
               {statusB}
             </span>
-            
           </div>
         </div>
         {spriteB && <img className={styles.sprite} src={spriteB} alt={nameB} />}

@@ -23,6 +23,8 @@ type ThemeColors = {
   barB: string;
   barBg: string;
   red: string;
+  statusWin: string;
+  statusLose: string;
 };
 
 export type ThemeName = "light" | "dark";
@@ -55,13 +57,16 @@ export const themes: Record<ThemeName, ThemeColors> = {
     btn: "#ea580c",
 
     // Stat winner colors
-    winA: "#16a34a", 
+    winA: "#16a34a",
     winADim: "rgba(22,163,74,0.12)",
     winB: "#ea580c",
     winBDim: "rgba(234,88,12,0.12)",
     barA: "#22c55e",
     barB: "#f97316",
     barBg: "rgba(0,0,0,0.08)",
+
+    statusWin: "#11ad4a",
+    statusLose: "#dc2626",
 
     red: "#dc2626",
   },
@@ -97,6 +102,9 @@ export const themes: Record<ThemeName, ThemeColors> = {
     barA: "#4ade80",
     barB: "#fb923c",
     barBg: "rgba(255,255,255,0.06)",
+
+    statusWin: "#06cc31",
+    statusLose: "#f87171",
 
     red: "#f87171",
   },

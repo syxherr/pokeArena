@@ -9,6 +9,7 @@ interface BattleOverlayProps {
   winsA: number;
   winsB: number;
   onBeginDone?: () => void;
+  onWinnerDismiss?: () => void;
 }
 
 const PHASES = {
@@ -23,6 +24,7 @@ const BattleOverlay = memo(function BattleOverlay({
   winsA,
   winsB,
   onBeginDone,
+  onWinnerDismiss,
 }: BattleOverlayProps) {
   const visible = phase === PHASES.begin || phase === PHASES.winner;
 
@@ -43,7 +45,7 @@ const BattleOverlay = memo(function BattleOverlay({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          onClick={phase === PHASES.winner ? onBeginDone : undefined}
+          onClick={phase === PHASES.winner ? onWinnerDismiss : undefined}
           role="status"
           aria-live="assertive"
           aria-atomic="true"

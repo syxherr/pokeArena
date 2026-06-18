@@ -19,6 +19,9 @@ import { fetchPokemonDetail } from "./hooks/usePokemon";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Loading from "./components/Loading";
 
+import Button from "@mui/material/Button";
+import { Switch } from "@mui/material";
+
 const History = lazy(() => import("./components/history/History"));
 const StatsSection = lazy(() => import("./components/battle/StatsSection"));
 
@@ -136,7 +139,44 @@ export default function App() {
             </div>
           </div>
 
-          <label className={styles.toggleSwitch}>
+          <Switch
+            checked={theme === "dark"}
+            onChange={handleThemeToggle}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            sx={{
+              width: 48,
+              height: 26,
+              padding: 0,
+              "& .MuiSwitch-switchBase": {
+                padding: 0,
+                margin: "4px",
+                "&.Mui-checked": {
+                  transform: "translateX(22px)",
+                  "& .MuiSwitch-thumb": {
+                    background: "var(--accent)",
+                  },
+                  "& + .MuiSwitch-track": {
+                    background: "var(--accent-dim)",
+                    border: "1.5px solid var(--accent-border)",
+                    opacity: 1,
+                  },
+                },
+              },
+              "& .MuiSwitch-thumb": {
+                width: 18,
+                height: 18,
+                background: "var(--toggle-theme)",
+              },
+              "& .MuiSwitch-track": {
+                borderRadius: 30,
+                background: "var(--bg-card-inner)",
+                border: "1.5px solid var(--border)",
+                opacity: 1,
+              },
+            }}
+          />
+
+          {/* <label className={styles.toggleSwitch}>
             <input
               type="checkbox"
               role="switch"
@@ -148,7 +188,7 @@ export default function App() {
             <span className={styles.toggleTrack} aria-hidden="true">
               <span className={styles.toggleThumb} />
             </span>
-          </label>
+          </label> */}
         </header>
 
         {error && (
@@ -171,29 +211,95 @@ export default function App() {
             role="group"
             aria-label="Battle actions"
           >
-            <button
-              className={styles.btnReset}
+            <Button
+              variant="outlined"
               onClick={reset}
               aria-label="Reset Pokemon"
+              sx={{
+                borderRadius: "12px",
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: "13px",
+                fontWeight: 700,
+                textTransform: "none",
+                borderColor: "var(--border-focus)",
+                color: "var(--text-secondary)",
+                padding: "11px 22px",
+                "&:hover": {
+                  borderColor: "var(--border-focus)",
+                  color: "var(--text-primary)",
+                  background: "transparent",
+                },
+              }}
             >
               Reset
-            </button>
-            <button
-              className={styles.btnRandom}
+            </Button>
+
+            <Button
+              variant="outlined"
               onClick={handleRandom}
               disabled={listLoading}
               aria-label="Pick two random Pokémon"
+              sx={{
+                borderRadius: "12px",
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: "13px",
+                fontWeight: 700,
+                textTransform: "none",
+                borderColor: "var(--border-focus)",
+                color: "var(--text-secondary)",
+                padding: "11px 22px",
+                "&:hover": {
+                  borderColor: "var(--border-focus)",
+                  color: "var(--text-primary)",
+                  background: "transparent",
+                },
+                "&:disabled": {
+                  opacity: 0.35,
+                  borderColor: "var(--border-focus)",
+                },
+              }}
             >
               Random
-            </button>
-            <button
-              className={styles.btnCompare}
+            </Button>
+
+            <Button
+              variant="contained"
               onClick={compare}
               disabled={!canCompare}
               aria-disabled={!canCompare}
+              sx={{
+                borderRadius: "12px",
+                fontFamily: "'Unbounded', sans-serif",
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "0.03em",
+                textTransform: "none",
+                background: "var(--accent)",
+                color: "#fff",
+                padding: "11px 26px",
+                boxShadow:
+                  "3px 3px 0 rgba(0,0,0,0.35), 0 4px 14px var(--accent-border)",
+                "&:hover": {
+                  background: "var(--accent)",
+                  filter: "brightness(1.08)",
+                  boxShadow:
+                    "3px 3px 0 rgba(0,0,0,0.35), 0 6px 20px var(--accent-border)",
+                },
+                "&:active": {
+                  transform: "translate(2px, 2px)",
+                  boxShadow:
+                    "1px 1px 0 rgba(0,0,0,0.35), 0 2px 8px var(--accent-border)",
+                },
+                "&:disabled": {
+                  opacity: 0.35,
+                  background: "var(--accent)",
+                  color: "#fff",
+                  boxShadow: "none",
+                },
+              }}
             >
               Start Battle
-            </button>
+            </Button>
           </div>
 
           {statsVisible && selected[0] && selected[1] && (
@@ -228,7 +334,8 @@ export default function App() {
         nameB={selected[1]?.name ?? ""}
         winsA={battleResult.winsA}
         winsB={battleResult.winsB}
-        onBeginDone={overlayPhase === "begin" ? onBeginDone : onWinnerDismiss}
+        onBeginDone={onBeginDone}
+        onWinnerDismiss={onWinnerDismiss}
       />
     </>
   );

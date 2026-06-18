@@ -21,16 +21,6 @@
   margin: 0;
 }
 
-.count {
-  font-size: 11px;
-  font-weight: 700;
-  background: var(--bg-card-inner);
-  border: 1.5px solid var(--border);
-  color: var(--text-muted);
-  padding: 2px 9px;
-  border-radius: 20px;
-}
-
 .btnClear {
   font-family: "Nunito", sans-serif;
   font-size: 12px;
@@ -154,17 +144,27 @@
   white-space: nowrap;
 }
 
-.nameWin {
+.nameA {
   color: var(--win-a);
 }
-.nameLose {
+.nameB {
   color: var(--win-b);
+}
+
+.statusWin {
+  color: var(--status-win);
+}
+.statusLose {
+  color: var(--status-lose);
 }
 
 .nameDraw {
   color: var(--text-secondary);
 }
 
+.statusDraw {
+  color: var(--text-muted);
+}
 .roundNum {
   padding-left: 8px;
   min-width: 40px;
@@ -188,17 +188,8 @@
   text-transform: uppercase;
 }
 
-.statusWin {
-  color: var(--win-a);
-}
 
-.statusLose {
-  color: var(--red);
-}
 
-.statusDraw {
-  color: var(--text-muted);
-}
 
 .dot {
   width: 7px;
