@@ -19,4 +19,4 @@ I challenge you, if you dare, come with your strongest Pokemon and let us battle
 - **PokeAPI** — REST API as Pokémon data source, list cached to localStorage to avoid re-fetching every session
 
 ## Try it here 🚀
- [Pokemon Arena]([https://pokemon-arena-beta.vercel.app/])
+ [Pokemon Arena](https://pokemon-arena-beta.vercel.app/)
