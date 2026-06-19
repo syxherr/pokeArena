@@ -130,7 +130,7 @@ export default function App() {
         <header className={styles.header}>
           <div className={styles.brand}>
             <img
-              src="/pokeArena/pokeball.svg"
+              src="/pokeball.svg"
               alt="Logo"
               className={styles.logo}
             />
