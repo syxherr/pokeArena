@@ -4,7 +4,6 @@ import styles from "./StatsSection.module.css";
 import type { Pokemon } from "../../hooks/usePokemon";
 import { Box, Stack, Typography } from "@mui/material";
 
-
 // props komponen stat
 interface StatsSectionProps {
   pokemonA: Pokemon;
@@ -121,11 +120,11 @@ const StatsSection = memo(function StatsSection({
         direction="row"
         sx={{ justifyContent: "space-between", alignItems: "center" }}
       >
-        <Typography className={styles.nameA}>
+        <Typography className={styles.nameA} sx={{ paddingLeft: "20px" }}>
           {capitalize(pokemonA.name)}
         </Typography>
         <Typography className={styles.headerCenter}>Stats</Typography>
-        <Typography className={styles.nameB}>
+        <Typography className={styles.nameB} sx={{ paddingRight: "20px" }}>
           {capitalize(pokemonB.name)}
         </Typography>
       </Stack>

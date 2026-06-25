@@ -24,6 +24,7 @@ export function useComparator() {
   );
   const [statsVisible, setStatsVisible] = useState(false);
 
+  // hook 3
   const history = useSelector((state: RootState) => state.history.entries);
   const dispatch = useDispatch();
 

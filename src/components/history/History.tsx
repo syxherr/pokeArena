@@ -2,18 +2,7 @@ import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import styles from "./History.module.css";
 import { Button, Typography, Avatar } from "@mui/material";
-
-
-// data entry status history
-interface HistoryEntry {
-  nameA: string;
-  nameB: string;
-  statusA: "Win" | "Lose" | "Draw";
-  statusB: "Win" | "Lose" | "Draw";
-  spriteA?: string;
-  spriteB?: string;
-}
-
+import type { HistoryEntry } from "../../store/pokemonSlice";
 
 
 interface HistoryProps {

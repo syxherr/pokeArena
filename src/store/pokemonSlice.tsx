@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // data entry status history
-interface HistoryEntry {
+export interface HistoryEntry {
   nameA: string;
   nameB: string;
   statusA: "Win" | "Lose" | "Draw";
@@ -19,6 +19,7 @@ const initialState: HistoryState = {
   entries: [],
 };
 
+// fungsi add clear history
 const pokemonSlice = createSlice({
   name: "history",
   initialState,
@@ -32,7 +33,6 @@ const pokemonSlice = createSlice({
     },
   },
 });
-
 
 export const { addHistory, clearHistory } = pokemonSlice.actions;
 export default pokemonSlice.reducer;

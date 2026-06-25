@@ -16,7 +16,7 @@ import type { Pokemon, PokemonListItem } from "../../hooks/usePokemon";
 
 import { TextField, IconButton, Chip, Avatar } from "@mui/material";
 
-// 
+// props komponen PokemonPicker
 interface PokemonPickerProps {
   pokemonList: PokemonListItem[];
   listLoading: boolean;
