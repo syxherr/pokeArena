@@ -94,7 +94,7 @@ export default function History({ entries, onClear }: HistoryProps) {
             padding: "24px 0",
           }}
         >
-          No history yet.
+          No battle yet.
         </Typography>
       ) : (
         <div className={styles.table}>
