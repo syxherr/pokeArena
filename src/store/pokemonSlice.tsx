@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// data entry status history
 interface HistoryEntry {
   nameA: string;
   nameB: string;
@@ -9,6 +10,7 @@ interface HistoryEntry {
   spriteB?: string;
 }
 
+// struktur state redux history
 interface HistoryState {
   entries: HistoryEntry[];
 }
@@ -21,6 +23,7 @@ const pokemonSlice = createSlice({
   name: "history",
   initialState,
   reducers: {
+    // dikirim harus sesuai interface HistoryEntry
     addHistory(state, action: PayloadAction<HistoryEntry>) {
       state.entries.unshift(action.payload);
     },

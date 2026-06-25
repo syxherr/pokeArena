@@ -4,12 +4,15 @@ import styles from "./StatsSection.module.css";
 import type { Pokemon } from "../../hooks/usePokemon";
 import { Box, Stack, Typography } from "@mui/material";
 
+
+// props komponen stat
 interface StatsSectionProps {
   pokemonA: Pokemon;
   pokemonB: Pokemon;
   onComplete?: () => void;
 }
 
+// hasil kalkulasi satu baris stat
 interface StatResult {
   statkey: string;
   va: number;
@@ -20,12 +23,14 @@ interface StatResult {
   winB: boolean;
 }
 
+// total poin
 interface CalcResults {
   winsA: number;
   winsB: number;
   statResults: StatResult[];
 }
 
+// props animasi baris stat
 interface AnimatedRowProps {
   index: number;
   allDone: boolean;
@@ -40,6 +45,7 @@ interface AnimatedRowProps {
   nameB: string;
 }
 
+// props baris stat
 interface StatRowProps {
   label: string;
   va: number;
@@ -52,6 +58,7 @@ interface StatRowProps {
   nameB: string;
 }
 
+// props banner hasil akhir battle
 interface ResultBannerProps {
   winsA: number;
   winsB: number;

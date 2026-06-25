@@ -3,6 +3,8 @@ import { motion, useInView } from "motion/react";
 import styles from "./History.module.css";
 import { Button, Typography, Avatar } from "@mui/material";
 
+
+// data entry status history
 interface HistoryEntry {
   nameA: string;
   nameB: string;
@@ -11,6 +13,8 @@ interface HistoryEntry {
   spriteA?: string;
   spriteB?: string;
 }
+
+
 
 interface HistoryProps {
   entries: HistoryEntry[];

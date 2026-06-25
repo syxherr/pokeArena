@@ -5,11 +5,14 @@ const API_DETAIL = (name: string) =>
   `https://pokeapi.co/api/v2/pokemon/${name}`;
 const CACHE_KEY = "pokemon_list_cache";
 
+// data yang ada di dropdown
 export interface PokemonListItem {
   id: number;
   name: string;
 }
 
+
+// mendefinisikan data detail pokemon
 export interface Pokemon {
   id: number;
   name: string;

@@ -14,6 +14,7 @@ const STAT_KEYS = [
 ];
 
 export function useComparator() {
+  // generic type
   const [selected, setSelected] = useState<[Pokemon | null, Pokemon | null]>([
     null,
     null,
@@ -64,8 +65,6 @@ export function useComparator() {
         nameB: b.name,
         statusA,
         statusB,
-        // spriteA: a.sprite ?? undefined,
-        // spriteB: b.sprite ?? undefined,
       }),
     );
 

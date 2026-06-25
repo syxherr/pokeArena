@@ -11,24 +11,6 @@
   gap: 10px;
 }
 
-.btnClear {
-  font-family: "Nunito", sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 8px;
-  background: transparent;
-  border: 1.5px solid var(--border);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.btnClear:hover {
-  color: var(--red);
-  border-color: rgba(224, 58, 47, 0.3);
-}
-
 .empty {
   font-size: 13px;
   color: var(--text-muted);

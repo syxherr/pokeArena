@@ -15,6 +15,8 @@ import Loading from "../Loading";
 import type { Pokemon, PokemonListItem } from "../../hooks/usePokemon";
 
 import { TextField, IconButton, Chip, Avatar } from "@mui/material";
+
+// 
 interface PokemonPickerProps {
   pokemonList: PokemonListItem[];
   listLoading: boolean;
@@ -23,6 +25,8 @@ interface PokemonPickerProps {
   randomLoading: boolean;
 }
 
+
+// props untuk slot (challenger 1 atau challenger 2)
 interface SlotPickerProps {
   label: string;
   side: "left" | "right";
@@ -33,6 +37,7 @@ interface SlotPickerProps {
   randomLoading: boolean;
 }
 
+//  props card nampilin sprite dan nama pokemon
 interface PokemonCardProps {
   pokemon: Pokemon | null;
   loading: boolean;
