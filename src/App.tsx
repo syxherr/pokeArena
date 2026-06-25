@@ -129,15 +129,9 @@ export default function App() {
       <Box className={styles.app}>
         <Box component="header" className={styles.header}>
           <Box className={styles.brand}>
-            <img
-              src="/pokeball.svg"
-              alt="Logo"
-              className={styles.logo}
-            />
+            <img src="/pokeball.svg" alt="Logo" className={styles.logo} />
             <Box className={styles.brandText}>
-              
-
-<Typography
+              <Typography
                 variant="h1"
                 sx={{
                   fontFamily: "'Unbounded', sans-serif",
