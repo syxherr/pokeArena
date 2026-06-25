@@ -14,10 +14,7 @@ import SwordAltIcon from "../../style/SwordAltIcon";
 import Loading from "../Loading";
 import type { Pokemon, PokemonListItem } from "../../hooks/usePokemon";
 
-import { TextField } from "@mui/material";
-import { IconButton } from "@mui/material";
-import { Chip } from "@mui/material";
-
+import { TextField, IconButton, Chip, Avatar } from "@mui/material";
 interface PokemonPickerProps {
   pokemonList: PokemonListItem[];
   listLoading: boolean;
@@ -203,7 +200,7 @@ const SlotPicker = memo(function SlotPicker({
           id={inputId}
           fullWidth
           size="small"
-          placeholder={listLoading ? "Loading..." : "SeachPokemon"}
+          placeholder={listLoading ? "Loading..." : "SearchPokemon"}
           value={query}
           disabled={listLoading}
           onChange={handleQueryChange}
@@ -282,12 +279,16 @@ const SlotPicker = memo(function SlotPicker({
                 role="option"
                 aria-selected={pokemon?.name === p.name}
               >
-                <img
-                  className={styles.dropThumb}
+                <Avatar
+                  variant="square"
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png`}
                   alt=""
-                  width={32}
-                  height={32}
+                  sx={{
+                    width: 65,
+                    height: 65,
+                    borderRadius: "4px",
+                    background: "transparent",
+                  }}
                 />
                 <span className={styles.dropName}>{capitalize(p.name)}</span>
               </li>
@@ -341,12 +342,16 @@ const PokemonCard = memo(function PokemonCard({
         aria-label={`${capitalize(pokemon.name)} — selected as ${side === "left" ? "Challenger 1" : "Challenger 2"}`}
       >
         {pokemon.sprite && (
-          <img
-            className={styles.sprite}
+          <Avatar
+            variant="square"
             src={pokemon.sprite}
             alt={`${capitalize(pokemon.name)} sprite`}
-            width={96}
-            height={96}
+            sx={{
+              width: 130,
+              height: 130,
+              borderRadius: "8px",
+              background: "transparent",
+            }}
           />
         )}
         <div className={styles.cardInfo}>
@@ -369,7 +374,8 @@ const PokemonCard = memo(function PokemonCard({
 
 const TypePill = memo(function TypePill({ type }: TypePillProps) {
   const color = TYPE_COLORS[type] ?? "#999";
-  return (<Chip
+  return (
+    <Chip
       label={type}
       size="small"
       role="listitem"
@@ -389,17 +395,17 @@ const TypePill = memo(function TypePill({ type }: TypePillProps) {
         },
       }}
     />
-  //   <span
-  //     className={styles.typePill}
-  //     style={{
-  //       background: `${color}22`,
-  //       color,
-  //       border: `1px solid ${color}44`,
-  //     }}
-  //     role="listitem"
-  //   >
-  //     {type}
-  //   </span>
+    //   <span
+    //     className={styles.typePill}
+    //     style={{
+    //       background: `${color}22`,
+    //       color,
+    //       border: `1px solid ${color}44`,
+    //     }}
+    //     role="listitem"
+    //   >
+    //     {type}
+    //   </span>
   );
 });
 

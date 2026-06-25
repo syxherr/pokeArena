@@ -1,10 +1,8 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import styles from "./History.module.css";
+import { Button, Typography, Avatar } from "@mui/material";
 
-import { Button } from "@mui/material";
-
-// tambah setelah import
 interface HistoryEntry {
   nameA: string;
   nameB: string;
@@ -54,7 +52,20 @@ export default function History({ entries, onClear }: HistoryProps) {
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <h2 className={styles.title}>History</h2>
+          <Typography
+            variant="h6"
+            sx={{
+              fontFamily: "'Unbounded', sans-serif",
+              fontSize: "16px",
+              fontWeight: 800,
+              textTransform: "uppercase",
+              letterSpacing: "0.03em",
+              color: "var(--text-primary)",
+              margin: 0,
+            }}
+          >
+            History
+          </Typography>{" "}
         </div>
 
         <Button
@@ -81,7 +92,17 @@ export default function History({ entries, onClear }: HistoryProps) {
       </div>
 
       {entries.length === 0 ? (
-        <p className={styles.empty}>No history yet.</p>
+        <Typography
+          sx={{
+            fontFamily: "'Nunito', sans-serif",
+            fontSize: "13px",
+            color: "var(--text-muted)",
+            textAlign: "center",
+            padding: "24px 0",
+          }}
+        >
+          No history yet.
+        </Typography>
       ) : (
         <div className={styles.table}>
           <div className={styles.colHeaders}>
@@ -108,14 +129,21 @@ function HistoryItem({ entry, index }: HistoryItemProps) {
   const { nameA, nameB, statusA, statusB, spriteA, spriteB } = entry;
 
   const nameClassA = styles.nameA;
-const nameClassB = styles.nameB;
+  const nameClassB = styles.nameB;
 
   return (
     <div className={styles.row}>
       <div className={styles.roundNum}>{index}</div>
 
       <div className={styles.sideA}>
-        {spriteA && <img className={styles.sprite} src={spriteA} alt={nameA} />}
+        {spriteA && (
+          <Avatar
+            variant="square"
+            src={spriteA}
+            alt={nameA}
+            sx={{ width: 36, height: 36, borderRadius: "6px" }}
+          />
+        )}
         <div className={styles.pokeInfo}>
           <span className={`${styles.pokeName} ${nameClassA}`}>
             {capitalize(nameA)}
@@ -130,7 +158,9 @@ const nameClassB = styles.nameB;
         </div>
       </div>
 
-      <div className={styles.sword}>⚔️</div>
+      <Typography sx={{ fontSize: "18px" }} aria-hidden="true">
+        ⚔️
+      </Typography>
 
       <div className={styles.sideB}>
         <div className={styles.pokeInfo} style={{ alignItems: "flex-end" }}>
@@ -145,7 +175,14 @@ const nameClassB = styles.nameB;
             </span>
           </div>
         </div>
-        {spriteB && <img className={styles.sprite} src={spriteB} alt={nameB} />}
+        {spriteB && (
+          <Avatar
+            variant="square"
+            src={spriteB}
+            alt={nameB}
+            sx={{ width: 36, height: 36, borderRadius: "6px" }}
+          />
+        )}
       </div>
     </div>
   );

@@ -11,16 +11,6 @@
   gap: 10px;
 }
 
-.title {
-  font-family: "Unbounded", sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--text-primary);
-  margin: 0;
-}
-
 .btnClear {
   font-family: "Nunito", sans-serif;
   font-size: 12px;
@@ -187,9 +177,6 @@
   letter-spacing: 0.07em;
   text-transform: uppercase;
 }
-
-
-
 
 .dot {
   width: 7px;

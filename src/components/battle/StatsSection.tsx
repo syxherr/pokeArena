@@ -2,7 +2,7 @@ import { useState, useEffect, memo, useMemo } from "react";
 import { motion } from "motion/react";
 import styles from "./StatsSection.module.css";
 import type { Pokemon } from "../../hooks/usePokemon";
-// import { capitalize } from "../../utils/capitalize";
+import { Box, Stack, Typography } from "@mui/material";
 
 interface StatsSectionProps {
   pokemonA: Pokemon;
@@ -41,7 +41,6 @@ interface AnimatedRowProps {
 }
 
 interface StatRowProps {
-  allDone: boolean;
   label: string;
   va: number;
   vb: number;
@@ -89,7 +88,6 @@ const StatsSection = memo(function StatsSection({
     setVisibleCount(0);
     setAllDone(false);
 
-    // 5. c show stat tiap 1 detik
     const interval = setInterval(() => {
       setVisibleCount((prev) => {
         const next = prev + 1;
@@ -111,18 +109,19 @@ const StatsSection = memo(function StatsSection({
   }, [allDone, onComplete]);
 
   return (
-    <article className={styles.wrapper}>
-      <div className={styles.tableHeader}>
-        <span className={styles.nameA} aria-hidden="true">
+    <Box component="article" className={styles.wrapper}>
+      <Stack
+        direction="row"
+        sx={{ justifyContent: "space-between", alignItems: "center" }}
+      >
+        <Typography className={styles.nameA}>
           {capitalize(pokemonA.name)}
-        </span>
-        <span className={styles.headerCenter} aria-hidden="true">
-          Stats
-        </span>
-        <span className={styles.nameB} aria-hidden="true">
+        </Typography>
+        <Typography className={styles.headerCenter}>Stats</Typography>
+        <Typography className={styles.nameB}>
           {capitalize(pokemonB.name)}
-        </span>
-      </div>
+        </Typography>
+      </Stack>
 
       <div
         key={listKey}
@@ -167,7 +166,7 @@ const StatsSection = memo(function StatsSection({
           />
         </motion.div>
       )}
-    </article>
+    </Box>
   );
 });
 
@@ -205,7 +204,6 @@ const AnimatedRow = memo(function AnimatedRow({
           barB={barB}
           winA={winA}
           winB={winB}
-          allDone={allDone}
           nameA={nameA}
           nameB={nameB}
         />
@@ -222,7 +220,6 @@ const StatRow = memo(function StatRow({
   barB,
   winA,
   winB,
-  allDone,
   nameA,
   nameB,
 }: StatRowProps) {
@@ -251,11 +248,11 @@ const StatRow = memo(function StatRow({
               className={`${styles.barFill} ${styles.barLeft} ${!winA ? styles.barDim : ""}`}
               initial={{ width: "0%" }}
               animate={{ width: `${barA}%` }}
-              transition={
-                allDone
-                  ? { duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }
-                  : { duration: 0 }
-              }
+              transition={{
+                duration: 0.6,
+                delay: 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
             />
           </div>
           <div className={styles.barTrack}>
@@ -263,11 +260,11 @@ const StatRow = memo(function StatRow({
               className={`${styles.barFill} ${styles.barRight} ${!winB ? styles.barDim : ""}`}
               initial={{ width: "0%" }}
               animate={{ width: `${barB}%` }}
-              transition={
-                allDone
-                  ? { duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }
-                  : { duration: 0 }
-              }
+              transition={{
+                duration: 0.6,
+                delay: 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
             />
           </div>
         </div>

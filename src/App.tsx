@@ -20,7 +20,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import Loading from "./components/Loading";
 
 import Button from "@mui/material/Button";
-import { Switch } from "@mui/material";
+import { Switch, Alert, Box, Typography, Card } from "@mui/material";
 
 const History = lazy(() => import("./components/history/History"));
 const StatsSection = lazy(() => import("./components/battle/StatsSection"));
@@ -126,18 +126,33 @@ export default function App() {
           {JSON.stringify(STRUCTURED_DATA)}
         </script>
       </Helmet>
-      <div className={styles.app}>
-        <header className={styles.header}>
-          <div className={styles.brand}>
+      <Box className={styles.app}>
+        <Box component="header" className={styles.header}>
+          <Box className={styles.brand}>
             <img
               src="/pokeball.svg"
               alt="Logo"
               className={styles.logo}
             />
-            <div className={styles.brandText}>
-              <h1 className={styles.title}>Pokemon Arena</h1>
-            </div>
-          </div>
+            <Box className={styles.brandText}>
+              
+
+<Typography
+                variant="h1"
+                sx={{
+                  fontFamily: "'Unbounded', sans-serif",
+                  fontSize: "20px",
+                  fontWeight: 800,
+                  letterSpacing: "-0.01em",
+                  color: "var(--text-primary)",
+                  margin: 0,
+                  lineHeight: 1,
+                }}
+              >
+                Pokemon Arena
+              </Typography>
+            </Box>
+          </Box>
 
           <Switch
             checked={theme === "dark"}
@@ -189,15 +204,33 @@ export default function App() {
               <span className={styles.toggleThumb} />
             </span>
           </label> */}
-        </header>
+        </Box>
 
         {error && (
-          <div className={styles.error} role="alert" aria-live="assertive">
+          <Alert
+            severity="error"
+            sx={{
+              fontFamily: "'Nunito', sans-serif",
+              fontSize: "13px",
+              borderRadius: "12px",
+            }}
+          >
             Failed load data: {error}
-          </div>
+          </Alert>
         )}
 
-        <section className={styles.card}>
+        <Card
+          component="section"
+          variant="outlined"
+          className={styles.card}
+          sx={{
+            background: "var(--bg-card)",
+            border: "1px solid var(--border)",
+            borderRadius: "20px",
+            boxShadow: "none",
+            padding: 3,
+          }}
+        >
           <PokemonPicker
             pokemonList={list}
             listLoading={listLoading}
@@ -315,18 +348,30 @@ export default function App() {
               </Suspense>
             </ErrorBoundary>
           )}
-        </section>
+        </Card>
 
         {history.length > 0 && (
-          <section className={styles.card} aria-label="Battle history">
+          <Card
+            component="section"
+            variant="outlined"
+            className={styles.card}
+            aria-label="Battle history"
+            sx={{
+              background: "var(--bg-card)",
+              border: "1px solid var(--border)",
+              borderRadius: "20px",
+              boxShadow: "none",
+              padding: 2.1,
+            }}
+          >
             <ErrorBoundary>
               <Suspense fallback={<Loading />}>
                 <History entries={history} onClear={clearHistory} />
               </Suspense>
             </ErrorBoundary>
-          </section>
+          </Card>
         )}
-      </div>
+      </Box>
       {/* props */}
       <BattleOverlay
         phase={overlayPhase}
