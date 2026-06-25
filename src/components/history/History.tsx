@@ -4,7 +4,6 @@ import styles from "./History.module.css";
 import { Button, Typography, Avatar } from "@mui/material";
 import type { HistoryEntry } from "../../store/pokemonSlice";
 
-
 interface HistoryProps {
   entries: HistoryEntry[];
   onClear: () => void;
