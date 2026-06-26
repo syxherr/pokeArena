@@ -7,8 +7,6 @@ const API_DETAIL = (name: string) =>
 const CACHE_KEY = "pokemon_list_cache";
 
 
-
-
 // 1. cached API to localStorage
 async function fetchList(): Promise<PokemonListItem[]> {
   // ambil data dari localStorage

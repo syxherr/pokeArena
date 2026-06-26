@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import type { Pokemon } from "../types";
 import { useSelector, useDispatch } from "react-redux";
-import { addHistory, clearHistory as clearHistoryAction } from "../store/pokemonSlice";
+import { addHistory, clearHistory as clearHistoryAction } from "../store/reducer";
 import type { RootState } from "../store/store";
 
 const STAT_KEYS = [

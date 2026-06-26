@@ -17,7 +17,6 @@ import BattleOverlay from "./components/battle/BattleOverlay";
 import { fetchPokemonDetail } from "./hooks/usePokemon";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Loading from "./components/Loading";
-
 import Button from "@mui/material/Button";
 import { Switch, Alert, Box, Typography, Card } from "@mui/material";
 
@@ -212,14 +211,7 @@ export default function App() {
           />
         </Box>
 
-        {error && (
-          <Alert
-            severity="error"
-            
-          >
-            Failed load data: {error}
-          </Alert>
-        )}
+        {error && <Alert severity="error">Failed load data: {error}</Alert>}
 
         <Card
           component="section"
@@ -230,7 +222,6 @@ export default function App() {
             padding: "28px",
             position: "relative",
             overflow: "hidden",
-            
           }}
         >
           <PokemonPicker

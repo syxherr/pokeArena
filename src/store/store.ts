@@ -1,28 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
-import historyReducer from "./pokemonSlice"
+import { createStore, combineReducers } from "redux";
+import { historyReducer } from "./reducer";
 
-const persistConfig = {
-  key: "battle_history",
-  storage: {
-    getItem: (key: string) => Promise.resolve(localStorage.getItem(key)),
-    setItem: (key: string, value: string) => Promise.resolve(localStorage.setItem(key, value)),
-    removeItem: (key: string) => Promise.resolve(localStorage.removeItem(key)),
-  },
-};
-
-const persistedReducer = persistReducer(persistConfig, historyReducer);
-
-export const store = configureStore({
-    reducer: {
-        history: persistedReducer
-    },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({ serializableCheck: false }),
+const rootReducer = combineReducers({
+  history: historyReducer,
 });
 
-export const persistor = persistStore(store);
+export const store = createStore(rootReducer);
 
-// TypeScript tau bentuk seluruh state Redux
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

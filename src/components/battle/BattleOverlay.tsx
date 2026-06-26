@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { Box, Typography } from "@mui/material";
 import type { BattleOverlayProps } from "../../types";
 
-
 const PHASES = {
   begin: "begin",
   winner: "winner",

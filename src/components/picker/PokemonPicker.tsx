@@ -12,9 +12,22 @@ import { fetchPokemonDetail } from "../../hooks/usePokemon";
 import styles from "./PokemonPicker.module.css";
 import SwordAltIcon from "../../style/SwordAltIcon";
 import Loading from "../Loading";
-import type { Pokemon, PokemonListItem, PokemonPickerProps, SlotPickerProps, PokemonCardProps, TypePillProps } from "../../types";
-import { Box, TextField, IconButton, Chip, Avatar, Typography } from "@mui/material";
-
+import type {
+  Pokemon,
+  PokemonListItem,
+  PokemonPickerProps,
+  SlotPickerProps,
+  PokemonCardProps,
+  TypePillProps,
+} from "../../types";
+import {
+  Box,
+  TextField,
+  IconButton,
+  Chip,
+  Avatar,
+  Typography,
+} from "@mui/material";
 
 const TYPE_COLORS: Record<string, string> = {
   fire: "#FF6B35",
@@ -44,8 +57,14 @@ const PokemonPicker = memo(function PokemonPicker({
   onSelect,
   randomLoading,
 }: PokemonPickerProps) {
-  const handleSelectA = useCallback((poke: Pokemon | null) => onSelect(0, poke), [onSelect]);
-  const handleSelectB = useCallback((poke: Pokemon | null) => onSelect(1, poke), [onSelect]);
+  const handleSelectA = useCallback(
+    (poke: Pokemon | null) => onSelect(0, poke),
+    [onSelect],
+  );
+  const handleSelectB = useCallback(
+    (poke: Pokemon | null) => onSelect(1, poke),
+    [onSelect],
+  );
 
   return (
     <Box
@@ -159,10 +178,13 @@ const SlotPicker = memo(function SlotPicker({
     onSelect(null);
   }, [onSelect]);
 
-  const handleQueryChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    setOpen(true);
-  }, []);
+  const handleQueryChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setQuery(e.target.value);
+      setOpen(true);
+    },
+    [],
+  );
 
   const handleFocus = useCallback(() => setOpen(true), []);
 
@@ -216,7 +238,6 @@ const SlotPicker = memo(function SlotPicker({
               ),
             },
           }}
-          
         />
 
         {open && filtered.length > 0 && (
@@ -263,11 +284,20 @@ const SlotPicker = memo(function SlotPicker({
                   variant="square"
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png`}
                   alt=""
-                  sx={{ width: 65, height: 65, borderRadius: "4px", background: "transparent" }}
+                  sx={{
+                    width: 65,
+                    height: 65,
+                    borderRadius: "4px",
+                    background: "transparent",
+                  }}
                 />
                 <Typography
                   component="span"
-                  sx={{ fontSize: "13px", fontWeight: 500, color: "var(--text-primary)" }}
+                  sx={{
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    color: "var(--text-primary)",
+                  }}
                 >
                   {capitalize(p.name)}
                 </Typography>
@@ -277,12 +307,20 @@ const SlotPicker = memo(function SlotPicker({
         )}
       </Box>
 
-      <PokemonCard pokemon={pokemon} loading={fetching || randomLoading} side={side} />
+      <PokemonCard
+        pokemon={pokemon}
+        loading={fetching || randomLoading}
+        side={side}
+      />
     </Box>
   );
 });
 
-const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }: PokemonCardProps) {
+const PokemonCard = memo(function PokemonCard({
+  pokemon,
+  loading,
+  side,
+}: PokemonCardProps) {
   if (loading) {
     return (
       <Box
@@ -369,7 +407,10 @@ const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }: Pokemo
             pointerEvents: "none",
           }}
         >
-          <Box className={`${styles.bgCircle}`} sx={{ width: "100%", height: "100%", borderRadius: "50%" }} />
+          <Box
+            className={`${styles.bgCircle}`}
+            sx={{ width: "100%", height: "100%", borderRadius: "50%" }}
+          />
         </Box>
 
         {pokemon.sprite && (
@@ -388,7 +429,14 @@ const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }: Pokemo
           />
         )}
 
-        <Box sx={{ textAlign: "center", position: "relative", zIndex: 1, width: "100%" }}>
+        <Box
+          sx={{
+            textAlign: "center",
+            position: "relative",
+            zIndex: 1,
+            width: "100%",
+          }}
+        >
           <Box
             className={`${styles[side]} ${styles.cardName}`}
             sx={{
@@ -406,7 +454,12 @@ const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }: Pokemo
           <Box
             role="list"
             aria-label={`${capitalize(pokemon.name)} types`}
-            sx={{ display: "flex", gap: "5px", justifyContent: "center", flexWrap: "wrap" }}
+            sx={{
+              display: "flex",
+              gap: "5px",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
           >
             {pokemon.types.map((t) => (
               <TypePill key={t} type={t} />

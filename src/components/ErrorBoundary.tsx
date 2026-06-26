@@ -1,23 +1,6 @@
 import { Component } from "react";
 import Box from "@mui/material/Box";
 
-// const ErrorWrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   gap: 8px;
-//   padding: 16px;
-//   border-radius: 12px;
-//   background: var(--color-surface);
-//   border: 1px solid var(--color-border);
-//   min-height: 140px;
-//   color: var(--color-muted);
-//   font-size: 0.875rem;
-//   background: var(--bg-poke-card);
-//   text-align: center;
-// `;
-
 interface Props {
   children: React.ReactNode;
 }

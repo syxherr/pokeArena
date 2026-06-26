@@ -1,9 +1,16 @@
 import { useState, useEffect, memo, useMemo } from "react";
 import { motion } from "motion/react";
 import styles from "./StatsSection.module.css";
-import type { StatsSectionProps, StatResult, CalcResults, AnimatedRowProps, StatRowProps, ResultBannerProps, Pokemon } from "../../types";
+import type {
+  StatsSectionProps,
+  StatResult,
+  CalcResults,
+  AnimatedRowProps,
+  StatRowProps,
+  ResultBannerProps,
+  Pokemon,
+} from "../../types";
 import { Box, Stack, Typography } from "@mui/material";
-
 
 const STAT_KEYS = [
   "hp",
