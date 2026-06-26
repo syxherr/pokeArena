@@ -12,41 +12,9 @@ import { fetchPokemonDetail } from "../../hooks/usePokemon";
 import styles from "./PokemonPicker.module.css";
 import SwordAltIcon from "../../style/SwordAltIcon";
 import Loading from "../Loading";
-import type { Pokemon, PokemonListItem } from "../../hooks/usePokemon";
+import type { Pokemon, PokemonListItem, PokemonPickerProps, SlotPickerProps, PokemonCardProps, TypePillProps } from "../../types";
+import { Box, TextField, IconButton, Chip, Avatar, Typography } from "@mui/material";
 
-import { TextField, IconButton, Chip, Avatar } from "@mui/material";
-
-// props komponen PokemonPicker
-interface PokemonPickerProps {
-  pokemonList: PokemonListItem[];
-  listLoading: boolean;
-  selected: [Pokemon | null, Pokemon | null];
-  onSelect: (slot: number, pokemon: Pokemon | null) => void;
-  randomLoading: boolean;
-}
-
-
-// props untuk slot (challenger 1 atau challenger 2)
-interface SlotPickerProps {
-  label: string;
-  side: "left" | "right";
-  pokemonList: PokemonListItem[];
-  listLoading: boolean;
-  pokemon: Pokemon | null;
-  onSelect: (pokemon: Pokemon | null) => void;
-  randomLoading: boolean;
-}
-
-//  props card nampilin sprite dan nama pokemon
-interface PokemonCardProps {
-  pokemon: Pokemon | null;
-  loading: boolean;
-  side: "left" | "right";
-}
-
-interface TypePillProps {
-  type: string;
-}
 
 const TYPE_COLORS: Record<string, string> = {
   fire: "#FF6B35",
@@ -76,20 +44,19 @@ const PokemonPicker = memo(function PokemonPicker({
   onSelect,
   randomLoading,
 }: PokemonPickerProps) {
-  const handleSelectA = useCallback(
-    (poke: Pokemon | null) => onSelect(0, poke),
-    [onSelect],
-  );
-  const handleSelectB = useCallback(
-    (poke: Pokemon | null) => onSelect(1, poke),
-    [onSelect],
-  );
+  const handleSelectA = useCallback((poke: Pokemon | null) => onSelect(0, poke), [onSelect]);
+  const handleSelectB = useCallback((poke: Pokemon | null) => onSelect(1, poke), [onSelect]);
 
   return (
-    <div
-      className={styles.picker}
+    <Box
       role="group"
       aria-label="Select two Pokémon to battle"
+      sx={{
+        display: "grid",
+        gridTemplateColumns: "1fr 52px 1fr",
+        gap: "12px",
+        alignItems: "start",
+      }}
     >
       <SlotPicker
         label="Challenger 1"
@@ -101,9 +68,22 @@ const PokemonPicker = memo(function PokemonPicker({
         randomLoading={randomLoading}
       />
 
-      <div className={styles.vs} aria-hidden="true">
+      <Box
+        aria-hidden="true"
+        sx={{
+          width: "52px",
+          height: "52px",
+          borderRadius: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "var(--text-muted)",
+          mx: "auto",
+          mt: "117px",
+        }}
+      >
         <SwordAltIcon width={30} height={30} />
-      </div>
+      </Box>
 
       <SlotPicker
         label="Challenger 2"
@@ -114,7 +94,7 @@ const PokemonPicker = memo(function PokemonPicker({
         onSelect={handleSelectB}
         randomLoading={randomLoading}
       />
-    </div>
+    </Box>
   );
 });
 
@@ -137,7 +117,6 @@ const SlotPicker = memo(function SlotPicker({
   const inputId = useId();
   const listboxId = useId();
 
-  // 2. autocomplete based on query user
   const filtered = useMemo(() => {
     if (query.trim().length === 0) return pokemonList.slice(0, 80);
     return pokemonList
@@ -149,7 +128,6 @@ const SlotPicker = memo(function SlotPicker({
       .slice(0, 60);
   }, [query, pokemonList]);
 
-  // autocomplete tutup
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (wrapRef.current && !wrapRef.current.contains(e.target as Node))
@@ -159,13 +137,11 @@ const SlotPicker = memo(function SlotPicker({
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  // 3. call fetchPokemonDetail, ngambil data lengkap pokemon
   const handleSelect = useCallback(
     async (p: PokemonListItem) => {
       setQuery(capitalize(p.name));
       setOpen(false);
       setFetching(true);
-      // fetch detail pokemon
       try {
         const detail = await fetchPokemonDetail(p.name);
         onSelect(detail);
@@ -183,29 +159,35 @@ const SlotPicker = memo(function SlotPicker({
     onSelect(null);
   }, [onSelect]);
 
-  // autocomplete kebuka
-  const handleQueryChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setQuery(e.target.value);
-      setOpen(true);
-    },
-    [],
-  );
+  const handleQueryChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    setOpen(true);
+  }, []);
 
   const handleFocus = useCallback(() => setOpen(true), []);
 
   return (
-    <div className={`${styles.slot} ${styles[side]}`}>
-      <label htmlFor={inputId} className={styles.label}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <Typography
+        component="label"
+        htmlFor={inputId}
+        sx={{
+          fontSize: "11px",
+          fontWeight: 600,
+          letterSpacing: "0.07em",
+          textTransform: "uppercase",
+          color: "var(--text-muted)",
+        }}
+      >
         {label}
-      </label>
+      </Typography>
 
-      <div className={styles.autocompleteWrap} ref={wrapRef}>
+      <Box ref={wrapRef} sx={{ position: "relative" }}>
         <TextField
           id={inputId}
           fullWidth
           size="small"
-          placeholder={listLoading ? "Loading..." : "SearchPokemon"}
+          placeholder={listLoading ? "Loading..." : "Search Pokémon"}
           value={query}
           disabled={listLoading}
           onChange={handleQueryChange}
@@ -234,118 +216,162 @@ const SlotPicker = memo(function SlotPicker({
               ),
             },
           }}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "12px",
-              background: "var(--bg-input)",
-              fontFamily: "'Nunito', sans-serif",
-              fontSize: "13px",
-              fontWeight: 500,
-              color: "var(--text-primary)",
-              "& fieldset": {
-                borderColor: "var(--border)",
-                borderWidth: "1px",
-              },
-              "&:hover fieldset": {
-                borderColor: "var(--border-focus)",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "var(--border-focus)",
-                borderWidth: "1px",
-                boxShadow: "0 0 0 2px var(--accent-dim)",
-              },
-              "&.Mui-disabled": {
-                opacity: 0.4,
-              },
-            },
-            "& .MuiOutlinedInput-input": {
-              padding: "11px 14px",
-              "&::placeholder": {
-                color: "var(--text-muted)",
-                opacity: 1,
-              },
-            },
-          }}
+          
         />
 
-        {/* 2. dropdown suggestion */}
         {open && filtered.length > 0 && (
-          <ul
+          <Box
+            component="ul"
             id={listboxId}
-            className={styles.dropdown}
             aria-label={`${label} Pokémon options`}
+            sx={{
+              position: "absolute",
+              top: "calc(100% + 4px)",
+              left: 0,
+              right: 0,
+              background: "var(--bg-card)",
+              border: "1px solid var(--border-focus)",
+              borderRadius: "12px",
+              listStyle: "none",
+              padding: "4px",
+              margin: 0,
+              maxHeight: "220px",
+              overflowY: "auto",
+              zIndex: 100,
+              boxShadow: "0 8px 28px rgba(0,0,0,0.35)",
+            }}
           >
             {filtered.map((p) => (
-              // 3. pokemon dipilih = panggil handleSelect
-              <li
+              <Box
+                component="li"
                 key={p.id}
                 className={styles.dropdownItem}
                 onMouseDown={() => handleSelect(p)}
                 role="option"
                 aria-selected={pokemon?.name === p.name}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "7px 10px",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  transition: "background 0.12s",
+                }}
               >
                 <Avatar
                   variant="square"
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png`}
                   alt=""
-                  sx={{
-                    width: 65,
-                    height: 65,
-                    borderRadius: "4px",
-                    background: "transparent",
-                  }}
+                  sx={{ width: 65, height: 65, borderRadius: "4px", background: "transparent" }}
                 />
-                <span className={styles.dropName}>{capitalize(p.name)}</span>
-              </li>
+                <Typography
+                  component="span"
+                  sx={{ fontSize: "13px", fontWeight: 500, color: "var(--text-primary)" }}
+                >
+                  {capitalize(p.name)}
+                </Typography>
+              </Box>
             ))}
-          </ul>
+          </Box>
         )}
-      </div>
+      </Box>
 
-      <PokemonCard
-        pokemon={pokemon}
-        loading={fetching || randomLoading}
-        side={side}
-      />
-    </div>
+      <PokemonCard pokemon={pokemon} loading={fetching || randomLoading} side={side} />
+    </Box>
   );
 });
 
-const PokemonCard = memo(function PokemonCard({
-  pokemon,
-  loading,
-  side,
-}: PokemonCardProps) {
+const PokemonCard = memo(function PokemonCard({ pokemon, loading, side }: PokemonCardProps) {
   if (loading) {
     return (
-      <div className={`${styles.card} ${styles[side]}`}>
+      <Box
+        sx={{
+          background: "var(--bg-poke-card)",
+          border: "1px solid var(--border)",
+          borderRadius: "16px",
+          padding: "20px 16px 16px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+          overflow: "hidden",
+          height: "240px",
+        }}
+      >
         <Loading />
-      </div>
+      </Box>
     );
   }
 
   if (!pokemon) {
     return (
       <ErrorBoundary>
-        <div className={`${styles.card} ${styles[side]}`}>
-          <div
-            className={styles.cardEmpty}
+        <Box
+          sx={{
+            background: "var(--bg-poke-card)",
+            border: "1px solid var(--border)",
+            borderRadius: "16px",
+            padding: "20px 16px 16px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            overflow: "hidden",
+            height: "240px",
+          }}
+        >
+          <Typography
             role="img"
             aria-label="No Pokémon selected"
+            sx={{ fontSize: "13px", color: "var(--text-secondary)" }}
           >
             Choose Your Pokemon
-          </div>
-        </div>
+          </Typography>
+        </Box>
       </ErrorBoundary>
     );
   }
 
   return (
     <ErrorBoundary>
-      <article
-        className={`${styles.card} ${styles[side]}`}
+      <Box
+        component="article"
         aria-label={`${capitalize(pokemon.name)} — selected as ${side === "left" ? "Challenger 1" : "Challenger 2"}`}
+        sx={{
+          background: "var(--bg-poke-card)",
+          border: "1px solid var(--border)",
+          borderRadius: "16px",
+          padding: "20px 16px 16px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "10px",
+          position: "relative",
+          overflow: "hidden",
+          height: "240px",
+          justifyContent: "center",
+        }}
       >
+        <Box
+          className={`${styles[side]}`}
+          aria-hidden="true"
+          sx={{
+            position: "absolute",
+            width: "110px",
+            height: "110px",
+            borderRadius: "50%",
+            top: "-20px",
+            right: "-20px",
+            opacity: 0.1,
+            pointerEvents: "none",
+          }}
+        >
+          <Box className={`${styles.bgCircle}`} sx={{ width: "100%", height: "100%", borderRadius: "50%" }} />
+        </Box>
+
         {pokemon.sprite && (
           <Avatar
             variant="square"
@@ -356,23 +382,38 @@ const PokemonCard = memo(function PokemonCard({
               height: 130,
               borderRadius: "8px",
               background: "transparent",
+              position: "relative",
+              zIndex: 1,
             }}
           />
         )}
-        <div className={styles.cardInfo}>
-          <div className={styles.cardName}>{capitalize(pokemon.name)}</div>
 
-          <div
-            className={styles.types}
+        <Box sx={{ textAlign: "center", position: "relative", zIndex: 1, width: "100%" }}>
+          <Box
+            className={`${styles[side]} ${styles.cardName}`}
+            sx={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: "22px",
+              letterSpacing: "0.06em",
+              lineHeight: 1.1,
+              margin: "2px 0 6px",
+              color: side === "left" ? "var(--win-a)" : "var(--win-b)",
+            }}
+          >
+            {capitalize(pokemon.name)}
+          </Box>
+
+          <Box
             role="list"
             aria-label={`${capitalize(pokemon.name)} types`}
+            sx={{ display: "flex", gap: "5px", justifyContent: "center", flexWrap: "wrap" }}
           >
             {pokemon.types.map((t) => (
               <TypePill key={t} type={t} />
             ))}
-          </div>
-        </div>
-      </article>
+          </Box>
+        </Box>
+      </Box>
     </ErrorBoundary>
   );
 });
@@ -388,29 +429,8 @@ const TypePill = memo(function TypePill({ type }: TypePillProps) {
         background: `${color}22`,
         color,
         border: `1px solid ${color}44`,
-        borderRadius: "20px",
-        fontFamily: "'Nunito', sans-serif",
-        fontSize: "10px",
-        fontWeight: 600,
-        letterSpacing: "0.06em",
-        textTransform: "uppercase",
-        height: "22px",
-        "& .MuiChip-label": {
-          padding: "0 9px",
-        },
       }}
     />
-    //   <span
-    //     className={styles.typePill}
-    //     style={{
-    //       background: `${color}22`,
-    //       color,
-    //       border: `1px solid ${color}44`,
-    //     }}
-    //     role="listitem"
-    //   >
-    //     {type}
-    //   </span>
   );
 });
 

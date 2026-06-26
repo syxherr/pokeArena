@@ -1,23 +1,8 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import styles from "./History.module.css";
-import { Button, Typography, Avatar } from "@mui/material";
-import type { HistoryEntry } from "../../store/pokemonSlice";
-
-interface HistoryProps {
-  entries: HistoryEntry[];
-  onClear: () => void;
-}
-
-interface HistoryItemProps {
-  entry: HistoryEntry;
-  index: number;
-}
-
-interface AnimatedItemProps {
-  children: React.ReactNode;
-  index: number;
-}
+import { Box, Button, Typography, Avatar } from "@mui/material";
+import type { HistoryProps, HistoryItemProps, AnimatedItemProps } from "../../types";
 
 function AnimatedItem({ children, index }: AnimatedItemProps) {
   const ref = useRef(null);
@@ -28,11 +13,7 @@ function AnimatedItem({ children, index }: AnimatedItemProps) {
       ref={ref}
       initial={{ opacity: 0, y: 12 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-      transition={{
-        duration: 0.9,
-        delay: index * 0.15,
-        ease: [0.16, 1, 0.3, 1],
-      }}
+      transition={{ duration: 0.9, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
@@ -41,9 +22,9 @@ function AnimatedItem({ children, index }: AnimatedItemProps) {
 
 export default function History({ entries, onClear }: HistoryProps) {
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.header}>
-        <div className={styles.headerLeft}>
+    <Box sx={{ mt: "24px" }}>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: "16px" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <Typography
             variant="h6"
             sx={{
@@ -57,8 +38,8 @@ export default function History({ entries, onClear }: HistoryProps) {
             }}
           >
             History
-          </Typography>{" "}
-        </div>
+          </Typography>
+        </Box>
 
         <Button
           variant="outlined"
@@ -81,7 +62,7 @@ export default function History({ entries, onClear }: HistoryProps) {
         >
           Clear
         </Button>
-      </div>
+      </Box>
 
       {entries.length === 0 ? (
         <Typography
@@ -96,87 +77,157 @@ export default function History({ entries, onClear }: HistoryProps) {
           No battle yet.
         </Typography>
       ) : (
-        <div className={styles.table}>
-          <div className={styles.colHeaders}>
-            <div className={styles.colRound}>Round</div>
-            <div className={styles.colA}>Challenger 1</div>
-            <div />
-            <div className={styles.colB}>Challenger 2</div>
-          </div>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "52px 1fr 48px 1fr",
+              padding: "0 14px 8px",
+              borderBottom: "1.5px solid var(--border)",
+              mb: "8px",
+            }}
+          >
+            {[
+              { label: "Round", color: "var(--text-muted)", align: "left" },
+              { label: "Challenger 1", color: "var(--win-a)", align: "left" },
+              { label: "", color: "transparent", align: "left" },
+              { label: "Challenger 2", color: "var(--win-b)", align: "right" },
+            ].map(({ label, color, align }) => (
+              <Typography
+                key={label}
+                sx={{
+                  fontSize: "9px",
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  color,
+                  textAlign: align,
+                }}
+              >
+                {label}
+              </Typography>
+            ))}
+          </Box>
 
-          <div className={styles.list}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: "6px" }}>
             {entries.map((entry, i) => (
               <AnimatedItem key={i} index={i}>
                 <HistoryItem entry={entry} index={entries.length - i} />
               </AnimatedItem>
             ))}
-          </div>
-        </div>
+          </Box>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
 function HistoryItem({ entry, index }: HistoryItemProps) {
   const { nameA, nameB, statusA, statusB, spriteA, spriteB } = entry;
 
-  const nameClassA = styles.nameA;
-  const nameClassB = styles.nameB;
+  const statusColor = (status: string) =>
+    status === "Win" ? "var(--status-win)" : status === "Lose" ? "var(--status-lose)" : "var(--text-muted)";
 
   return (
-    <div className={styles.row}>
-      <div className={styles.roundNum}>{index}</div>
+    <Box
+      className={styles.row}
+      sx={{
+        display: "grid",
+        gridTemplateColumns: "52px 1fr 48px 1fr",
+        alignItems: "center",
+        padding: "10px 14px",
+        background: "var(--bg-card-inner)",
+        border: "1.5px solid var(--border)",
+        borderRadius: "14px",
+        transition: "border-color 0.15s, box-shadow 0.15s",
+      }}
+    >
+      <Typography
+        sx={{
+          pl: "8px",
+          minWidth: "40px",
+          fontFamily: "'Unbounded', sans-serif",
+          fontSize: "20px",
+          fontWeight: 800,
+          lineHeight: 1,
+          color: "var(--text-muted)",
+        }}
+      >
+        {index}
+      </Typography>
 
-      <div className={styles.sideA}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
         {spriteA && (
-          <Avatar
-            variant="square"
-            src={spriteA}
-            alt={nameA}
-            sx={{ width: 36, height: 36, borderRadius: "6px" }}
-          />
+          <Avatar variant="square" src={spriteA} alt={nameA} sx={{ width: 36, height: 36, borderRadius: "6px" }} />
         )}
-        <div className={styles.pokeInfo}>
-          <span className={`${styles.pokeName} ${nameClassA}`}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+          <Typography
+            component="span"
+            sx={{
+              fontFamily: "'Unbounded', sans-serif",
+              fontSize: "11px",
+              fontWeight: 700,
+              letterSpacing: "0.01em",
+              lineHeight: 1,
+              whiteSpace: "nowrap",
+              color: "var(--win-a)",
+            }}
+          >
             {capitalize(nameA)}
-          </span>
-          <div className={styles.status}>
-            <span
-              className={`${styles.statusText} ${statusA === "Win" ? styles.statusWin : statusA === "Lose" ? styles.statusLose : styles.statusDraw}`}
-            >
-              {statusA}
-            </span>
-          </div>
-        </div>
-      </div>
+          </Typography>
+          <Typography
+            component="span"
+            sx={{
+              fontSize: "9px",
+              fontWeight: 800,
+              letterSpacing: "0.07em",
+              textTransform: "uppercase",
+              color: statusColor(statusA),
+            }}
+          >
+            {statusA}
+          </Typography>
+        </Box>
+      </Box>
 
-      <Typography sx={{ fontSize: "18px" }} aria-hidden="true">
+      <Typography sx={{ fontSize: "18px", textAlign: "center" }} aria-hidden="true">
         ⚔️
       </Typography>
 
-      <div className={styles.sideB}>
-        <div className={styles.pokeInfo} style={{ alignItems: "flex-end" }}>
-          <span className={`${styles.pokeName} ${nameClassB}`}>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "10px" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "3px", alignItems: "flex-end" }}>
+          <Typography
+            component="span"
+            sx={{
+              fontFamily: "'Unbounded', sans-serif",
+              fontSize: "11px",
+              fontWeight: 700,
+              letterSpacing: "0.01em",
+              lineHeight: 1,
+              whiteSpace: "nowrap",
+              color: "var(--win-b)",
+            }}
+          >
             {capitalize(nameB)}
-          </span>
-          <div className={styles.status}>
-            <span
-              className={`${styles.statusText} ${statusB === "Win" ? styles.statusWin : statusB === "Lose" ? styles.statusLose : styles.statusDraw}`}
-            >
-              {statusB}
-            </span>
-          </div>
-        </div>
+          </Typography>
+          <Typography
+            component="span"
+            sx={{
+              fontSize: "9px",
+              fontWeight: 800,
+              letterSpacing: "0.07em",
+              textTransform: "uppercase",
+              color: statusColor(statusB),
+            }}
+          >
+            {statusB}
+          </Typography>
+        </Box>
         {spriteB && (
-          <Avatar
-            variant="square"
-            src={spriteB}
-            alt={nameB}
-            sx={{ width: 36, height: 36, borderRadius: "6px" }}
-          />
+          <Avatar variant="square" src={spriteB} alt={nameB} sx={{ width: 36, height: 36, borderRadius: "6px" }} />
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

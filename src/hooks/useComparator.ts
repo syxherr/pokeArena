@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { Pokemon } from "./usePokemon";
+import type { Pokemon } from "../types";
 import { useSelector, useDispatch } from "react-redux";
 import { addHistory, clearHistory as clearHistoryAction } from "../store/pokemonSlice";
 import type { RootState } from "../store/store";

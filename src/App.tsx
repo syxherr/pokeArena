@@ -12,7 +12,6 @@ import {
   useState,
 } from "react";
 import PokemonPicker from "./components/picker/PokemonPicker";
-import styles from "./App.module.css";
 import { calcWinner } from "./hooks/useComparator";
 import BattleOverlay from "./components/battle/BattleOverlay";
 import { fetchPokemonDetail } from "./hooks/usePokemon";
@@ -36,10 +35,8 @@ const STRUCTURED_DATA = {
 };
 
 export default function App() {
-  // custom hook usePokemonList(
   const { list, loading: listLoading, error } = usePokemonList();
 
-  // custom hook useComparator()
   const {
     selected,
     statsVisible,
@@ -54,9 +51,7 @@ export default function App() {
     onWinnerDismiss,
   } = useComparator();
 
-  // custom hook useTheme()
   const { theme, setTheme } = useTheme();
-
   const [randomLoading, setRandomLoading] = useState(false);
 
   const handleRandom = useCallback(() => {
@@ -79,9 +74,7 @@ export default function App() {
         selectPokemon(0, a);
         selectPokemon(1, b);
       })
-      .finally(() => {
-        setRandomLoading(false);
-      });
+      .finally(() => setRandomLoading(false));
   }, [list, selectPokemon]);
 
   const statsRef = useRef<HTMLDivElement>(null);
@@ -126,11 +119,46 @@ export default function App() {
           {JSON.stringify(STRUCTURED_DATA)}
         </script>
       </Helmet>
-      <Box className={styles.app}>
-        <Box component="header" className={styles.header}>
-          <Box className={styles.brand}>
-            <img src="/pokeball.svg" alt="Logo" className={styles.logo} />
-            <Box className={styles.brandText}>
+
+      <Box
+        sx={{
+          minHeight: "100vh",
+          background: "var(--bg-app)",
+          color: "var(--text-primary)",
+          fontFamily: "'Nunito', sans-serif",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "0 20px 80px",
+          gap: "24px",
+          position: "relative",
+          overflowX: "hidden",
+        }}
+      >
+        <Box
+          component="header"
+          sx={{
+            width: "100%",
+            maxWidth: "760px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "20px 0 4px",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <img
+              src="/pokeball.svg"
+              alt="Logo"
+              style={{
+                width: "42px",
+                height: "42px",
+                filter:
+                  "drop-shadow(0 2px 0px rgba(0,0,0,0.55)) drop-shadow(0 4px 8px rgba(0,0,0,0.35)) drop-shadow(0 0 16px rgba(220,50,40,0.25))",
+                flexShrink: 0,
+              }}
+            />
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "1px" }}>
               <Typography
                 variant="h1"
                 sx={{
@@ -161,9 +189,7 @@ export default function App() {
                 margin: "4px",
                 "&.Mui-checked": {
                   transform: "translateX(22px)",
-                  "& .MuiSwitch-thumb": {
-                    background: "var(--accent)",
-                  },
+                  "& .MuiSwitch-thumb": { background: "var(--accent)" },
                   "& + .MuiSwitch-track": {
                     background: "var(--accent-dim)",
                     border: "1.5px solid var(--accent-border)",
@@ -184,30 +210,12 @@ export default function App() {
               },
             }}
           />
-
-          {/* <label className={styles.toggleSwitch}>
-            <input
-              type="checkbox"
-              role="switch"
-              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-              aria-checked={theme === "dark"}
-              checked={theme === "dark"}
-              onChange={handleThemeToggle}
-            />
-            <span className={styles.toggleTrack} aria-hidden="true">
-              <span className={styles.toggleThumb} />
-            </span>
-          </label> */}
         </Box>
 
         {error && (
           <Alert
             severity="error"
-            sx={{
-              fontFamily: "'Nunito', sans-serif",
-              fontSize: "13px",
-              borderRadius: "12px",
-            }}
+            
           >
             Failed load data: {error}
           </Alert>
@@ -216,13 +224,13 @@ export default function App() {
         <Card
           component="section"
           variant="outlined"
-          className={styles.card}
           sx={{
-            background: "var(--bg-card)",
-            border: "1px solid var(--border)",
-            borderRadius: "20px",
-            boxShadow: "none",
-            padding: 3,
+            width: "100%",
+            maxWidth: "760px",
+            padding: "28px",
+            position: "relative",
+            overflow: "hidden",
+            
           }}
         >
           <PokemonPicker
@@ -233,20 +241,21 @@ export default function App() {
             randomLoading={randomLoading}
           />
 
-          <div
-            className={styles.actions}
+          <Box
             role="group"
             aria-label="Battle actions"
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: "10px",
+              mt: "16px",
+            }}
           >
             <Button
               variant="outlined"
               onClick={reset}
               aria-label="Reset Pokemon"
               sx={{
-                borderRadius: "12px",
-                fontFamily: "'Nunito', sans-serif",
-                fontSize: "13px",
-                fontWeight: 700,
                 textTransform: "none",
                 borderColor: "var(--border-focus)",
                 color: "var(--text-secondary)",
@@ -267,11 +276,6 @@ export default function App() {
               disabled={listLoading}
               aria-label="Pick two random Pokémon"
               sx={{
-                borderRadius: "12px",
-                fontFamily: "'Nunito', sans-serif",
-                fontSize: "13px",
-                fontWeight: 700,
-                textTransform: "none",
                 borderColor: "var(--border-focus)",
                 color: "var(--text-secondary)",
                 padding: "11px 22px",
@@ -295,12 +299,7 @@ export default function App() {
               disabled={!canCompare}
               aria-disabled={!canCompare}
               sx={{
-                borderRadius: "12px",
-                fontFamily: "'Unbounded', sans-serif",
-                fontSize: "12px",
-                fontWeight: 700,
                 letterSpacing: "0.03em",
-                textTransform: "none",
                 background: "var(--accent)",
                 color: "#fff",
                 padding: "11px 26px",
@@ -327,7 +326,7 @@ export default function App() {
             >
               Start Battle
             </Button>
-          </div>
+          </Box>
 
           {statsVisible && selected[0] && selected[1] && (
             <ErrorBoundary>
@@ -348,14 +347,13 @@ export default function App() {
           <Card
             component="section"
             variant="outlined"
-            className={styles.card}
             aria-label="Battle history"
             sx={{
-              background: "var(--bg-card)",
-              border: "1px solid var(--border)",
-              borderRadius: "20px",
-              boxShadow: "none",
-              padding: 2.1,
+              width: "100%",
+              maxWidth: "760px",
+              padding: "28px",
+              position: "relative",
+              overflow: "hidden",
             }}
           >
             <ErrorBoundary>
@@ -366,7 +364,7 @@ export default function App() {
           </Card>
         )}
       </Box>
-      {/* props */}
+
       <BattleOverlay
         phase={overlayPhase}
         nameA={selected[0]?.name ?? ""}

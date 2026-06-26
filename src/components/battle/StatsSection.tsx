@@ -1,69 +1,9 @@
 import { useState, useEffect, memo, useMemo } from "react";
 import { motion } from "motion/react";
 import styles from "./StatsSection.module.css";
-import type { Pokemon } from "../../hooks/usePokemon";
+import type { StatsSectionProps, StatResult, CalcResults, AnimatedRowProps, StatRowProps, ResultBannerProps, Pokemon } from "../../types";
 import { Box, Stack, Typography } from "@mui/material";
 
-// props komponen stat
-interface StatsSectionProps {
-  pokemonA: Pokemon;
-  pokemonB: Pokemon;
-  onComplete?: () => void;
-}
-
-// hasil kalkulasi satu baris stat
-interface StatResult {
-  statkey: string;
-  va: number;
-  vb: number;
-  barA: number;
-  barB: number;
-  winA: boolean;
-  winB: boolean;
-}
-
-// total poin
-interface CalcResults {
-  winsA: number;
-  winsB: number;
-  statResults: StatResult[];
-}
-
-// props animasi baris stat
-interface AnimatedRowProps {
-  index: number;
-  allDone: boolean;
-  label: string;
-  va: number;
-  vb: number;
-  barA: number;
-  barB: number;
-  winA: boolean;
-  winB: boolean;
-  nameA: string;
-  nameB: string;
-}
-
-// props baris stat
-interface StatRowProps {
-  label: string;
-  va: number;
-  vb: number;
-  barA: number;
-  barB: number;
-  winA: boolean;
-  winB: boolean;
-  nameA: string;
-  nameB: string;
-}
-
-// props banner hasil akhir battle
-interface ResultBannerProps {
-  winsA: number;
-  winsB: number;
-  nameA: string;
-  nameB: string;
-}
 
 const STAT_KEYS = [
   "hp",
@@ -73,7 +13,6 @@ const STAT_KEYS = [
   "special-defense",
   "speed",
 ];
-
 const MAX_STAT = 255;
 
 const StatsSection = memo(function StatsSection({
@@ -93,7 +32,6 @@ const StatsSection = memo(function StatsSection({
   useEffect(() => {
     setVisibleCount(0);
     setAllDone(false);
-
     const interval = setInterval(() => {
       setVisibleCount((prev) => {
         const next = prev + 1;
@@ -104,7 +42,6 @@ const StatsSection = memo(function StatsSection({
         return next;
       });
     }, 1000);
-
     return () => clearInterval(interval);
   }, [pokemonA.name, pokemonB.name]);
 
@@ -115,16 +52,55 @@ const StatsSection = memo(function StatsSection({
   }, [allDone, onComplete]);
 
   return (
-    <Box component="article" className={styles.wrapper}>
+    <Box
+      component="article"
+      sx={{
+        mt: "24px",
+        background: "var(--bg-card)",
+        border: "1px solid var(--border)",
+        borderRadius: "16px",
+        overflow: "hidden",
+        pt: "1rem",
+      }}
+    >
       <Stack
         direction="row"
         sx={{ justifyContent: "space-between", alignItems: "center" }}
       >
-        <Typography className={styles.nameA} sx={{ paddingLeft: "20px" }}>
+        <Typography
+          sx={{
+            fontSize: "12px",
+            fontWeight: 600,
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            color: "var(--win-a)",
+            pl: "20px",
+          }}
+        >
           {capitalize(pokemonA.name)}
         </Typography>
-        <Typography className={styles.headerCenter}>Stats</Typography>
-        <Typography className={styles.nameB} sx={{ paddingRight: "20px" }}>
+        <Typography
+          sx={{
+            fontSize: "10px",
+            color: "var(--text-muted)",
+            textAlign: "center",
+            letterSpacing: "0.09em",
+            textTransform: "uppercase",
+          }}
+        >
+          Stats
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "12px",
+            fontWeight: 600,
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            color: "var(--win-b)",
+            textAlign: "right",
+            pr: "20px",
+          }}
+        >
           {capitalize(pokemonB.name)}
         </Typography>
       </Stack>
@@ -229,29 +205,92 @@ const StatRow = memo(function StatRow({
   nameA,
   nameB,
 }: StatRowProps) {
+  const numSx = {
+    fontFamily: '"Bebas Neue", sans-serif',
+    fontSize: "22px",
+    letterSpacing: "0.04em",
+    lineHeight: 1,
+  };
+
+  const dotBaseSx = {
+    display: "inline-block",
+    width: "7px",
+    height: "7px",
+    borderRadius: "50%",
+    flexShrink: 0,
+  };
+
   return (
-    <div
+    <Box
       className={styles.statRow}
       aria-label={`${label.toUpperCase()} — ${capitalize(nameA)} ${va}, ${capitalize(nameB)} ${vb}${winA ? `, ${capitalize(nameA)} wins this stat` : winB ? `, ${capitalize(nameB)} wins this stat` : ", tied"}`}
+      sx={{
+        display: "grid",
+        gridTemplateColumns: "80px 1fr 80px",
+        alignItems: "center",
+        padding: "11px 20px",
+        borderBottom: "1px solid var(--border)",
+        transition: "background 0.12s",
+      }}
     >
-      <div className={styles.valA}>
-        {winA && <span className={styles.dotGreen} aria-hidden="true" />}
-        <span
-          className={winA ? styles.numGreen : styles.numMuted}
+      <Box sx={{ display: "flex", alignItems: "center", gap: "3px" }}>
+        {winA && (
+          <Box
+            component="span"
+            aria-hidden="true"
+            sx={{
+              ...dotBaseSx,
+              background: "var(--win-a)",
+              boxShadow:
+                "0 0 4px 1px var(--win-a), 0 0 10px 2px var(--win-a-dim), 0 0 18px 3px var(--win-a-dim)",
+            }}
+          />
+        )}
+        <Typography
+          component="span"
           aria-hidden="true"
+          sx={{ ...numSx, color: winA ? "var(--win-a)" : "var(--text-muted)" }}
         >
           {va}
-        </span>
-      </div>
+        </Typography>
+      </Box>
 
-      <div className={styles.middle}>
-        <span className={styles.statLabel} aria-hidden="true">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "5px",
+          px: "12px",
+        }}
+      >
+        <Typography
+          component="span"
+          aria-hidden="true"
+          sx={{
+            fontSize: "10px",
+            color: "var(--text-muted)",
+            textAlign: "center",
+            textTransform: "uppercase",
+            letterSpacing: "0.07em",
+          }}
+        >
           {label.toUpperCase()}
-        </span>
-        <div className={styles.dualBars} aria-hidden="true">
-          <div className={styles.barTrack}>
+        </Typography>
+        <Box
+          sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px" }}
+          aria-hidden="true"
+        >
+          <Box
+            sx={{
+              height: "5px",
+              borderRadius: "20px",
+              background: "var(--bar-bg)",
+              overflow: "visible",
+              position: "relative",
+            }}
+          >
             <motion.div
-              className={`${styles.barFill} ${styles.barLeft} ${!winA ? styles.barDim : ""}`}
+              className={`${styles.barLeft} ${!winA ? styles.barDim : ""}`}
               initial={{ width: "0%" }}
               animate={{ width: `${barA}%` }}
               transition={{
@@ -259,11 +298,25 @@ const StatRow = memo(function StatRow({
                 delay: 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
+              style={{
+                height: "100%",
+                borderRadius: "20px",
+                position: "absolute",
+                top: 0,
+              }}
             />
-          </div>
-          <div className={styles.barTrack}>
+          </Box>
+          <Box
+            sx={{
+              height: "5px",
+              borderRadius: "20px",
+              background: "var(--bar-bg)",
+              overflow: "visible",
+              position: "relative",
+            }}
+          >
             <motion.div
-              className={`${styles.barFill} ${styles.barRight} ${!winB ? styles.barDim : ""}`}
+              className={`${styles.barRight} ${!winB ? styles.barDim : ""}`}
               initial={{ width: "0%" }}
               animate={{ width: `${barB}%` }}
               transition={{
@@ -271,21 +324,46 @@ const StatRow = memo(function StatRow({
                 delay: 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
+              style={{
+                height: "100%",
+                borderRadius: "20px",
+                position: "absolute",
+                top: 0,
+              }}
             />
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
 
-      <div className={styles.valB}>
-        <span
-          className={winB ? styles.numOrange : styles.numMuted}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          gap: "7px",
+        }}
+      >
+        <Typography
+          component="span"
           aria-hidden="true"
+          sx={{ ...numSx, color: winB ? "var(--win-b)" : "var(--text-muted)" }}
         >
           {vb}
-        </span>
-        {winB && <span className={styles.dotOrange} aria-hidden="true" />}
-      </div>
-    </div>
+        </Typography>
+        {winB && (
+          <Box
+            component="span"
+            aria-hidden="true"
+            sx={{
+              ...dotBaseSx,
+              background: "var(--win-b)",
+              boxShadow:
+                "0 0 4px 1px var(--win-b), 0 0 10px 2px var(--win-b-dim), 0 0 18px 3px var(--win-b-dim)",
+            }}
+          />
+        )}
+      </Box>
+    </Box>
   );
 });
 
@@ -295,40 +373,122 @@ const ResultBanner = memo(function ResultBanner({
   nameA,
   nameB,
 }: ResultBannerProps) {
+  const resultBaseSx = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    padding: "15px 20px",
+    background: "var(--bg-card-inner)",
+    borderTop: "1px solid var(--border)",
+  };
+
+  const resultTextSx = {
+    fontFamily: '"Bebas Neue", sans-serif',
+    fontSize: "18px",
+    letterSpacing: "0.08em",
+  };
+
+  const dotBaseSx = {
+    display: "inline-block",
+    width: "7px",
+    height: "7px",
+    borderRadius: "50%",
+    flexShrink: 0,
+  };
+
   if (winsA > winsB)
     return (
-      <div className={styles.result} role="status" aria-live="polite">
-        <span className={styles.dotGreen} aria-hidden="true" />
-        <span className={styles.resultGreen}>{capitalize(nameA)} wins</span>
-        <span
-          className={styles.resultScore}
+      <Box
+        className={styles.result}
+        role="status"
+        aria-live="polite"
+        sx={resultBaseSx}
+      >
+        <Box
+          component="span"
+          aria-hidden="true"
+          sx={{
+            ...dotBaseSx,
+            background: "var(--win-a)",
+            boxShadow:
+              "0 0 4px 1px var(--win-a), 0 0 10px 2px var(--win-a-dim), 0 0 18px 3px var(--win-a-dim)",
+          }}
+        />
+        <Typography
+          component="span"
+          sx={{ ...resultTextSx, color: "var(--win-a)" }}
+        >
+          {capitalize(nameA)} wins
+        </Typography>
+        <Typography
+          component="span"
           aria-label={`Score: ${winsA} to ${winsB}`}
+          sx={{ fontSize: "13px", color: "var(--text-muted)", fontWeight: 400 }}
         >
           {winsA} – {winsB}
-        </span>
-      </div>
+        </Typography>
+      </Box>
     );
 
   if (winsB > winsA)
     return (
-      <div className={styles.result} role="status" aria-live="polite">
-        <span className={styles.dotOrange} aria-hidden="true" />
-        <span className={styles.resultOrange}>{capitalize(nameB)} wins</span>
-        <span
-          className={styles.resultScore}
+      <Box
+        className={styles.result}
+        role="status"
+        aria-live="polite"
+        sx={resultBaseSx}
+      >
+        <Box
+          component="span"
+          aria-hidden="true"
+          sx={{
+            ...dotBaseSx,
+            background: "var(--win-b)",
+            boxShadow:
+              "0 0 4px 1px var(--win-b), 0 0 10px 2px var(--win-b-dim), 0 0 18px 3px var(--win-b-dim)",
+          }}
+        />
+        <Typography
+          component="span"
+          sx={{ ...resultTextSx, color: "var(--win-b)" }}
+        >
+          {capitalize(nameB)} wins
+        </Typography>
+        <Typography
+          component="span"
           aria-label={`Score: ${winsA} to ${winsB}`}
+          sx={{ fontSize: "13px", color: "var(--text-muted)", fontWeight: 400 }}
         >
           {winsA} – {winsB}
-        </span>
-      </div>
+        </Typography>
+      </Box>
     );
 
   return (
-    <div className={styles.result} role="status" aria-live="polite">
-      <span className={styles.dotMuted} aria-hidden="true" />
-      <span className={styles.resultDraw}>Draw — {winsA} wins each</span>
-      <span className={styles.dotMuted} aria-hidden="true" />
-    </div>
+    <Box
+      className={styles.result}
+      role="status"
+      aria-live="polite"
+      sx={resultBaseSx}
+    >
+      <Box
+        component="span"
+        aria-hidden="true"
+        sx={{ ...dotBaseSx, background: "var(--text-muted)" }}
+      />
+      <Typography
+        component="span"
+        sx={{ ...resultTextSx, color: "var(--text-muted)" }}
+      >
+        Draw — {winsA} wins each
+      </Typography>
+      <Box
+        component="span"
+        aria-hidden="true"
+        sx={{ ...dotBaseSx, background: "var(--text-muted)" }}
+      />
+    </Box>
   );
 });
 
