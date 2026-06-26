@@ -12,7 +12,7 @@ If you're brave enough, I challenge you, come with your strongest Pokemon and le
   
 ## Tech Stack
 - **React & TypeScript** — chosen for its component-based architecture and static typing capabilities.
-- **Redux Toolkit + redux-persist** — global state management for battle history, auto-persisted to localStorage.
+- **Redux + react-redux** — global state management for battle history, persisted to localStorage.
 - **SWR** — data fetching with built-in caching, deduplication, and loading/error state.
 - **motion/react** — stat reveal and overlay transition animations.
 - **CSS Modules + Styled Components** — scoped styling per component, zero class conflicts.
